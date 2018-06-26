@@ -1,11 +1,9 @@
-import java.util.List;
-
 public class BuildStrategyVsZerg extends BuildStrategy {
 
 	@Override
-	public List<BuildOrderItem> getBuildOrder() {
+	public void setBuildOrder() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -14,7 +14,9 @@ import bwapi.UpgradeType;
 public class BuildOrderAdjuster {
 
 	private static BuildOrderAdjuster instance = new BuildOrderAdjuster();
-
+	// Rearrange rules
+	private List<BuildRearrangeRule> lstRearrangeRules;
+		
 	private BuildOrderAdjuster()
 	{
 		
@@ -25,45 +27,26 @@ public class BuildOrderAdjuster {
 		return instance;
 	}
 
-	// Rearrange rules
-	private List<BuildRearrangeRule> lstRearrangeRules;
-	
-	public void rearrangeBuildOrders()
+	public void rearrangeBuildOrders(BuildStrategy buildStrategy)
 	{
-		Deque tmpQueue = BuildManager.Instance().buildQueue.getQueue();
+		BuildRearrangeRule rule;
 		
-		
-	}
-	
-	
-	
-	public void queueBuild(boolean blocking, UnitType... types) {
-		
-		BuildOrderItem.SeedPositionStrategy defaultSeedPosition = BuildOrderItem.SeedPositionStrategy.MainBaseLocation;
-		
-		BuildOrderQueue bq = BuildManager.Instance().buildQueue;		
-		for (UnitType type : types) {
-			bq.queueAsLowestPriority(type, defaultSeedPosition, blocking);
+		for(int i=0;i<lstRearrangeRules.size();i++)
+		{
+			rule = lstRearrangeRules.get(i);
+			rule.rearrange(BuildManager.Instance().buildQueue, buildStrategy);
 		}
 	}
 	
-	public void queueBuildSeed(boolean blocking, UnitType type, BuildOrderItem.SeedPositionStrategy seedPosition) {
-				
-		BuildOrderQueue bq = BuildManager.Instance().buildQueue;
-		bq.queueAsLowestPriority(type, seedPosition, blocking);
-	}
-	
-	public void queueBuild(TechType type) {
+	public void rearrangeBuildOrders(BuildOrderItem buildOrderItem)
+	{	
+		BuildRearrangeRule rule;
 		
-		BuildOrderQueue bq = BuildManager.Instance().buildQueue;
-		bq.queueAsLowestPriority(type);
-	}
-	
-	public void queueBuild(UpgradeType type) {
-		
-		BuildOrderQueue bq = BuildManager.Instance().buildQueue;
-		bq.queueAsLowestPriority(type);
+		for(int i=0;i<lstRearrangeRules.size();i++)
+		{
+			rule = lstRearrangeRules.get(i);
+			rule.rearrange(BuildManager.Instance().buildQueue, buildOrderItem);
+		}
 	}
 
-	
 }

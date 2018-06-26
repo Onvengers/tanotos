@@ -37,8 +37,16 @@ public class BuildStrategyFactory {
 		{
 			return new BuildStrategyVsTerran();
 		}
+		else if(enemy == Race.Zerg)
+		{
+			return new BuildStrategyVsZerg();
+		} 
+		else if(enemy == Race.Protoss)
+		{
+			return new BuildStrategyVsProtoss();
+		}
 		
-		return null;
+		return new BuildStrategyVsRandom();
 	}
 	
 	// 적 공격전략에 대응하는 build strategy를 생성함 (vs Enemies' Strategy)

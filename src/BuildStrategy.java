@@ -40,8 +40,18 @@ public abstract class BuildStrategy {
 		tmpBuildQueue.queueAsLowestPriority(type);
 	}
 	
+	protected void queueBuild(boolean blocking, TechType type) {
+
+		tmpBuildQueue.queueAsLowestPriority(type, blocking);
+	}
+	
 	protected void queueBuild(UpgradeType type) {
 
 		tmpBuildQueue.queueAsLowestPriority(type);
+	}
+	
+	protected void queueBuild(boolean blocking, UpgradeType type) {
+
+		tmpBuildQueue.queueAsLowestPriority(type, blocking);
 	}
 }

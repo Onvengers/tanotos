@@ -27,6 +27,15 @@ public class BuildOrderAdjuster {
 		return instance;
 	}
 
+	public void initialBuildOrders(BuildStrategy buildStrategy)
+	{
+		while(buildStrategy.getBuildOrder().isEmpty() == false)
+		{
+			BuildManager.Instance().buildQueue.queueItem(buildStrategy.getBuildOrder().getHighestPriorityItem());
+			buildStrategy.getBuildOrder().removeHighestPriorityItem();
+		}
+	}
+	
 	public void rearrangeBuildOrders(BuildStrategy buildStrategy)
 	{
 		BuildRearrangeRule rule;

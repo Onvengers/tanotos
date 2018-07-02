@@ -7,6 +7,8 @@ import bwapi.UpgradeType;
  *
  */
 public abstract class BuildStrategy {
+	
+	public Strategy myStrategy;
 
 	private BuildOrderQueue tmpBuildQueue = new BuildOrderQueue();
 	

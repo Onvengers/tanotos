@@ -2,10 +2,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import bwapi.Race;
-import bwapi.TechType;
 import bwapi.Unit;
 import bwapi.UnitType;
 import bwapi.UpgradeType;
@@ -26,6 +29,8 @@ public class StrategyManager {
 	private boolean isFullScaleAttackStarted;
 	private boolean isInitialBuildOrderFinished;
 	private boolean isBuildedAdun;
+	
+	private Map<StrategyType, List<StrategyRule>> strategyRules = new HashMap<StrategyType, List<StrategyRule>>();
 
 	// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
 	// 경기 결과 파일 Save / Load 및 로그파일 Save 예제 추가를 위한 변수 및 메소드 선언
@@ -66,10 +71,21 @@ public class StrategyManager {
 
 		// 과거 게임 기록을 로딩합니다
 		loadGameRecordList();
+		
+		// Strategy rule을 로딩합니다.
+		setInitializeStrategyRules();
 
 		// BasicBot 1.1 Patch End //////////////////////////////////////////////////
 
 		setInitialBuildOrder();
+	}
+	
+	private void setInitializeStrategyRules()
+	{
+		strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
+		
+		
+		strategyRules.get(StrategyType.Worker).add(new StrategyRuleWorkerTraining(StrategyType.Worker));
 	}
 
 	/// 경기가 종료될 때 일회적으로 전략 결과 정리 관련 로직을 실행합니다
@@ -119,41 +135,12 @@ public class StrategyManager {
 	// 일꾼 계속 추가 생산
 	public void executeWorkerTraining() {
 
-		// InitialBuildOrder 진행중에는 아무것도 하지 않습니다
-		// if (isInitialBuildOrderFinished == false) {
-		// return;
-		// }
-
-		if (MyBotModule.Broodwar.self().minerals() >= 50) {
-			// workerCount = 현재 일꾼 수 + 생산중인 일꾼 수
-			int workerCount = MyBotModule.Broodwar.self().allUnitCount(InformationManager.Instance().getWorkerType());
-
-			if (MyBotModule.Broodwar.self().getRace() == Race.Zerg) {
-			} else {
-				for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
-					if (unit.getType().isResourceDepot()) {
-						if (unit.isTraining()) {
-							workerCount += unit.getTrainingQueue().size();
-						}
-					}
-				}
-			}
-
-			if (workerCount < 30) {
-				for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
-					if (unit.getType().isResourceDepot()) {
-						if (unit.isTraining() == false || unit.getLarva().size() > 0) {
-							// 빌드큐에 일꾼 생산이 1개는 있도록 한다
-							if (BuildManager.Instance().buildQueue
-									.getItemCount(InformationManager.Instance().getWorkerType(), null) == 0) {
-								// std.cout + "worker enqueue" + std.endl;
-								BuildManager.Instance().buildQueue.queueAsHighestPriority(
-										new MetaType(InformationManager.Instance().getWorkerType()), false);
-							}
-						}
-					}
-				}
-			}
+		BuildStrategy bs;
+		
+		for(StrategyRule rule : this.strategyRules.get(StrategyType.Worker))
+		{
+			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());			
+			BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
 		}
 	}
 

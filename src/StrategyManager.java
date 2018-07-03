@@ -139,8 +139,12 @@ public class StrategyManager {
 		
 		for(StrategyRule rule : this.strategyRules.get(StrategyType.Worker))
 		{
-			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());			
-			BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
+			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
+			
+			if(bs != null)
+			{
+				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
+			}
 		}
 	}
 

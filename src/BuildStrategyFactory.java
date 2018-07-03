@@ -38,10 +38,16 @@ public class BuildStrategyFactory {
 		return new BuildStrategyVsRandom();
 	}
 	
-	// 적 공격전략에 대응하는 build strategy를 생성함 (vs Enemies' Strategy)
-	// 상황에 따른 아군 변경 build strategy를 생성함 (Self decision with my status)
 	public BuildStrategy createBuildStrategy(Strategy strategy)
 	{
+		BuildStrategy bs;
+		
+		if(strategy == Strategy.ADD_PROBE)
+		{
+			bs = new BuildStrategyAddProbeMulti(1);
+			bs.setMyStrategy(Strategy.ADD_PROBE);
+		}
+		
 		return null;
 	}
 }

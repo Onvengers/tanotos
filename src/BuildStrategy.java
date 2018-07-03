@@ -8,7 +8,16 @@ import bwapi.UpgradeType;
  */
 public abstract class BuildStrategy {
 	
-	public Strategy myStrategy;
+	// Strategy
+	protected Strategy myStrategy;
+
+	public Strategy getMyStrategy() {
+		return myStrategy;
+	}
+
+	public void setMyStrategy(Strategy myStrategy) {
+		this.myStrategy = myStrategy;
+	}
 
 	private BuildOrderQueue tmpBuildQueue = new BuildOrderQueue();
 	

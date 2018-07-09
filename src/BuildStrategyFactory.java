@@ -43,9 +43,23 @@ public class BuildStrategyFactory {
 		BuildStrategy bs;
 		if(strategy == Strategy.ADD_PROBE)
 		{	
-			System.out.println("createBuildStrategy");
 			bs = new BuildStrategyAddProbeMulti(1);
 			bs.setMyStrategy(Strategy.ADD_PROBE);
+		}
+		else if (strategy == Strategy.ADD_SUPPLY)
+		{
+			bs = new BuildStrategyAddSupplyMulti(1);
+			bs.setMyStrategy(Strategy.ADD_SUPPLY);
+		}
+		else if (strategy == Strategy.ADD_GATEWAY)
+		{
+			bs = new BuildStrategyAddGatewayMulti(1);
+			bs.setMyStrategy(Strategy.ADD_GATEWAY);
+		}
+		else if (strategy == Strategy.ADD_ZEALOT)
+		{
+			bs = new BuildStrategyAddZealotMulti(1);
+			bs.setMyStrategy(Strategy.ADD_ZEALOT);
 		}
 		else
 		{

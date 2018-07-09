@@ -13,11 +13,9 @@ public class BuildStrategyAddProbeMulti extends BuildStrategy {
 	@Override
 	public void setBuildOrder() {
 		// TODO Auto-generated method stub
-		System.out.println("3");
 		for(int i=0;i<unitCount;i++)
 		{
-			System.out.println("4");
-			queueBuild(true, UnitType.Protoss_Probe);
+			queueBuild(false, UnitType.Protoss_Probe);
 		}		
 	}
 }

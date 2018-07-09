@@ -79,6 +79,12 @@ public class StrategyManager {
 	{	
 		strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
 		strategyRules.get(StrategyType.Worker).add(new StrategyRuleWorkerTraining(StrategyType.Worker));
+		strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
+		strategyRules.get(StrategyType.Supply).add(new StrategyRuleSupplyProviding(StrategyType.Supply));
+		strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
+		strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGateway(StrategyType.CombatBuild));
+		strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
+		strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleZealotTraining(StrategyType.CombatUnit));
 	}
 
 	public void setInitialBuildOrder() 
@@ -108,13 +114,13 @@ public class StrategyManager {
 
 		executeWorkerTraining();
 
-		//executeSupplyManagement();
+		executeSupplyManagement();
 
-		//executeCombatBuildingManagement();
+		executeCombatBuildingManagement();
 
-		//executeBasicCombatUnitTraining();
+		executeBasicCombatUnitTraining();
 
-		//executeCombat();
+		executeCombat();
 
 		// 이번 게임의 로그를 남깁니다
 		saveGameLog();
@@ -123,8 +129,8 @@ public class StrategyManager {
 
 
 	// 일꾼 계속 추가 생산
-	public void executeWorkerTraining() {
-
+	public void executeWorkerTraining() 
+	{
 		BuildStrategy bs;
 		
 		for(StrategyRule rule : this.strategyRules.get(StrategyType.Worker))
@@ -140,147 +146,49 @@ public class StrategyManager {
 
 	// Supply DeadLock 예방 및 SupplyProvider 가 부족해질 상황 에 대한 선제적 대응으로서<br>
 	// SupplyProvider를 추가 건설/생산한다
-	public void executeSupplyManagement() {
-
-		// BWAPI::Broodwar->self()->supplyUsed() >
-		// BWAPI::Broodwar->self()->supplyTotal() 인 상황이거나
-		// BWAPI::Broodwar->self()->supplyUsed() + 빌드매니저 최상단 훈련 대상 유닛의
-		// unit->getType().supplyRequired() > BWAPI::Broodwar->self()->supplyTotal() 인
-		// 경우
-		// 서플라이 추가를 하지 않으면 더이상 유닛 훈련이 안되기 때문에 deadlock 상황이라고 볼 수도 있습니다.
-		// 저그 종족의 경우 일꾼을 건물로 Morph 시킬 수 있기 때문에 고의적으로 이런 상황을 만들기도 하고,
-		// 전투에 의해 유닛이 많이 죽을 것으로 예상되는 상황에서는 고의적으로 서플라이 추가를 하지 않을수도 있기 때문에
-		// 참가자께서 잘 판단하셔서 개발하시기 바랍니다.
-
-		// 1초에 한번만 실행
-		if (MyBotModule.Broodwar.getFrameCount() % 48 != 0) {
-			return;
-		}
-
-		// 게임에서는 서플라이 값이 200까지 있지만, BWAPI 에서는 서플라이 값이 400까지 있다
-		// 저글링 1마리가 게임에서는 서플라이를 0.5 차지하지만, BWAPI 에서는 서플라이를 1 차지한다
-		if (MyBotModule.Broodwar.self().supplyTotal() <= 400) {
-
-			// 서플라이가 다 꽉찼을때 새 서플라이를 지으면 지연이 많이 일어나므로, supplyMargin (게임에서의 서플라이 마진 값의 2배)만큼
-			// 부족해지면 새 서플라이를 짓도록 한다
-			// 이렇게 값을 정해놓으면, 게임 초반부에는 서플라이를 너무 일찍 짓고, 게임 후반부에는 서플라이를 너무 늦게 짓게 된다
-			int supplyMargin = 10;
-
-			// 현재 게이트웨이 수만큼 supplyMargin을 늘린다.
-
-			supplyMargin += MyBotModule.Broodwar.self()
-					.completedUnitCount(InformationManager.Instance().getBasicCombatBuildingType()) * 2;
-
-			// currentSupplyShortage 를 계산한다
-			int currentSupplyShortage = MyBotModule.Broodwar.self().supplyUsed() + supplyMargin
-					- MyBotModule.Broodwar.self().supplyTotal();
-
-			if (currentSupplyShortage > 0) {
-
-				// 생산/건설 중인 Supply를 센다
-				int onBuildingSupplyCount = 0;
-
-				// 저그 종족인 경우, 생산중인 Zerg_Overlord (Zerg_Egg) 를 센다. Hatchery 등 건물은 세지 않는다
-				if (MyBotModule.Broodwar.self().getRace() == Race.Zerg) {
-
-				}
-				// 저그 종족이 아닌 경우, 건설중인 Protoss_Pylon, Terran_Supply_Depot 를 센다. Nexus, Command
-				// Center 등 건물은 세지 않는다
-				else {
-					onBuildingSupplyCount += ConstructionManager.Instance().getConstructionQueueItemCount(
-							InformationManager.Instance().getBasicSupplyProviderUnitType(), null)
-							* InformationManager.Instance().getBasicSupplyProviderUnitType().supplyProvided();
-				}
-
-				// 주석처리
-				// System.out.println("currentSupplyShortage : " + currentSupplyShortage + "
-				// onBuildingSupplyCount : " + onBuildingSupplyCount);
-
-				if (currentSupplyShortage > onBuildingSupplyCount) {
-
-					// BuildQueue 최상단에 SupplyProvider 가 있지 않으면 enqueue 한다
-					boolean isToEnqueue = true;
-					if (!BuildManager.Instance().buildQueue.isEmpty()) {
-						BuildOrderItem currentItem = BuildManager.Instance().buildQueue.getHighestPriorityItem();
-						if (currentItem.metaType.isUnit() && currentItem.metaType.getUnitType() == InformationManager
-								.Instance().getBasicSupplyProviderUnitType()) {
-							isToEnqueue = false;
-						}
-					}
-					if (isToEnqueue) {
-						// 주석처리
-						// System.out.println("enqueue supply provider "
-						// + InformationManager.Instance().getBasicSupplyProviderUnitType());
-						BuildManager.Instance().buildQueue.queueAsHighestPriority(
-								new MetaType(InformationManager.Instance().getBasicSupplyProviderUnitType()), false);
-					}
-				}
+	public void executeSupplyManagement() 
+	{
+		BuildStrategy bs;
+		
+		for(StrategyRule rule : this.strategyRules.get(StrategyType.Supply))
+		{
+			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
+			
+			if(bs != null)
+			{
+				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
 			}
-		}
-		// BasicBot 1.1 Patch End ////////////////////////////////////////////////
-	}
-
-	public void executeCombatBuildingManagement() {
-		if (MyBotModule.Broodwar.getFrameCount() % 120 != 0) {
-			return;
-		}
-		if (isBuildedAdun == false
-				&& MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Citadel_of_Adun) == 1) {
-			BuildManager.Instance().buildQueue.queueAsLowestPriority(UpgradeType.Leg_Enhancements, false);
-			isBuildedAdun = true;
-		}
-		if (MyBotModule.Broodwar.self().minerals() > 400
-				&& MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Gateway)
-						+ BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Gateway) < 6) {
-			BuildManager.Instance().buildQueue.queueAsLowestPriority(UnitType.Protoss_Gateway,
-					BuildOrderItem.SeedPositionStrategy.MainBaseLocation, false);
 		}
 	}
 
-	public void executeBasicCombatUnitTraining() {
-
-		if (MyBotModule.Broodwar.self().minerals() >= 50 && MyBotModule.Broodwar.self().gas() >= 150
-				&& MyBotModule.Broodwar.self().supplyUsed() < 400) {
-			for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
-				if (unit.getType() == InformationManager.Instance().getBasicCombatBuildingType()) {
-					if (unit.isTraining() == false || unit.getLarva().size() > 0) {
-						if (BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_High_Templar, null) == 0) {
-							BuildManager.Instance().buildQueue.queueAsLowestPriority(UnitType.Protoss_High_Templar,
-									false);
-						}
-					}
-				}
-
-			}
-			if (MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_High_Templar) >= 2) {
-				BuildManager.Instance().buildQueue.queueAsLowestPriority(UnitType.Protoss_Archon, false);
+	public void executeCombatBuildingManagement() 
+	{
+		BuildStrategy bs;
+		
+		for(StrategyRule rule : this.strategyRules.get(StrategyType.CombatBuild))
+		{
+			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
+			
+			if(bs != null)
+			{
+				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
 			}
 		}
+	}
 
-		// 기본 병력 추가 훈련
-		if (MyBotModule.Broodwar.self().minerals() >= 100 && MyBotModule.Broodwar.self().supplyUsed() < 400) {
-			for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
-				if (unit.getType() == InformationManager.Instance().getBasicCombatBuildingType()) {
-					if (unit.isTraining() == false || unit.getLarva().size() > 0) {
-						if (BuildManager.Instance().buildQueue
-								.getItemCount(InformationManager.Instance().getBasicCombatUnitType(), null) == 0) {
-							if (MyBotModule.Broodwar.self()
-									.allUnitCount(InformationManager.Instance().getBasicCombatUnitType()) < 3
-									|| MyBotModule.Broodwar.self().minerals() > 300) {
-								BuildManager.Instance().buildQueue.queueAsHighestPriority(
-										InformationManager.Instance().getBasicCombatUnitType(),
-										BuildOrderItem.SeedPositionStrategy.MainBaseLocation, true);
-							} else {
-								BuildManager.Instance().buildQueue.queueAsLowestPriority(
-										InformationManager.Instance().getBasicCombatUnitType(),
-										BuildOrderItem.SeedPositionStrategy.MainBaseLocation, true);
-							}
-						}
-					}
-				}
+	public void executeBasicCombatUnitTraining() 
+	{
+		BuildStrategy bs;
+		
+		for(StrategyRule rule : this.strategyRules.get(StrategyType.CombatUnit))
+		{
+			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
+			
+			if(bs != null)
+			{
+				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
 			}
 		}
-
 	}
 
 	public void executeCombat() {
@@ -297,7 +205,7 @@ public class StrategyManager {
 			}
 
 			// 아칸 1마리가 생산되었으면 적군 위치가 파악되었으면 총공격 모드로 전환
-			if (MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Archon) > 1) {
+			if (MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Zealot) > 12) {
 				if (InformationManager.Instance().enemyPlayer != null
 						&& InformationManager.Instance().enemyRace != Race.Unknown && InformationManager.Instance()
 								.getOccupiedBaseLocations(InformationManager.Instance().enemyPlayer).size() > 0) {

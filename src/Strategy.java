@@ -13,5 +13,10 @@ public enum Strategy {
 	CHG_CARRIER,
 	CHG_LIVER,
 	//===========================
-	ADD_PROBE
+	ADD_PROBE,
+	ADD_SUPPLY,
+	ADD_GATEWAY,
+	ADD_ZEALOT,
+	ADD_HIGH_TEMPLER,
+	ADD_ARCHON
 }

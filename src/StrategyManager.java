@@ -66,71 +66,61 @@ public class StrategyManager {
 	/// 경기가 시작될 때 일회적으로 전략 초기 세팅 관련 로직을 실행합니다
 	public void onStart() {
 
-		// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
-		// 경기 결과 파일 Save / Load 및 로그파일 Save 예제 추가
-
-		// 과거 게임 기록을 로딩합니다
 		loadGameRecordList();
 		
 		// Strategy rule을 로딩합니다.
 		setInitializeStrategyRules();
-
-		// BasicBot 1.1 Patch End //////////////////////////////////////////////////
-
-		setInitialBuildOrder();
+		//setInitialBuildOrder();
+		// BuildOrderAdjuster의 lstRearrangeRules를 Set합니다.
+		setInitialBuildRearrangeRules();
 	}
 	
 	private void setInitializeStrategyRules()
-	{
+	{	
 		strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
-		
-		
 		strategyRules.get(StrategyType.Worker).add(new StrategyRuleWorkerTraining(StrategyType.Worker));
 	}
 
+	public void setInitialBuildOrder() 
+	{
+		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance().createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());
+		BuildOrderAdjuster.getInstance().initialBuildOrders(initBuildStrategy);
+	}
+	
+	public void setInitialBuildRearrangeRules() 
+	{
+		BuildOrderAdjuster.getInstance().setRearrangeRules(new BuildRearrangeRuleDoEverything());
+	}
+	
 	/// 경기가 종료될 때 일회적으로 전략 결과 정리 관련 로직을 실행합니다
-	public void onEnd(boolean isWinner) {
-
-		// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
-		// 경기 결과 파일 Save / Load 및 로그파일 Save 예제 추가
-
+	public void onEnd(boolean isWinner) 
+	{
 		// 과거 게임 기록 + 이번 게임 기록을 저장합니다
 		saveGameRecordList(isWinner);
-
-		// BasicBot 1.1 Patch End //////////////////////////////////////////////////
 	}
 
 	/// 경기 진행 중 매 프레임마다 경기 전략 관련 로직을 실행합니다
 	public void update() {
-		if (BuildManager.Instance().buildQueue.isEmpty()) {
-			isInitialBuildOrderFinished = true;
-		}
+		
+//		if (BuildManager.Instance().buildQueue.isEmpty()) {
+//			isInitialBuildOrderFinished = true;
+//		}
 
 		executeWorkerTraining();
 
-		executeSupplyManagement();
+		//executeSupplyManagement();
 
-		executeCombatBuildingManagement();
+		//executeCombatBuildingManagement();
 
-		executeBasicCombatUnitTraining();
+		//executeBasicCombatUnitTraining();
 
-		executeCombat();
-
-		// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
-		// 경기 결과 파일 Save / Load 및 로그파일 Save 예제 추가
+		//executeCombat();
 
 		// 이번 게임의 로그를 남깁니다
 		saveGameLog();
-
-		// BasicBot 1.1 Patch End //////////////////////////////////////////////////
 	}
 
-	public void setInitialBuildOrder() {
 
-		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance()
-				.createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());
-		BuildOrderAdjuster.getInstance().initialBuildOrders(initBuildStrategy);
-	}
 
 	// 일꾼 계속 추가 생산
 	public void executeWorkerTraining() {
@@ -151,14 +141,6 @@ public class StrategyManager {
 	// Supply DeadLock 예방 및 SupplyProvider 가 부족해질 상황 에 대한 선제적 대응으로서<br>
 	// SupplyProvider를 추가 건설/생산한다
 	public void executeSupplyManagement() {
-
-		// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
-		// 가이드 추가 및 콘솔 출력 명령 주석 처리
-
-		// InitialBuildOrder 진행중 혹은 그후라도 서플라이 건물이 파괴되어 데드락이 발생할 수 있는데, 이 상황에 대한 해결은
-		// 참가자께서 해주셔야 합니다.
-		// 오버로드가 학살당하거나, 서플라이 건물이 집중 파괴되는 상황에 대해 무조건적으로 서플라이 빌드 추가를 실행하기 보다 먼저 전략적 대책
-		// 판단이 필요할 것입니다
 
 		// BWAPI::Broodwar->self()->supplyUsed() >
 		// BWAPI::Broodwar->self()->supplyTotal() 인 상황이거나

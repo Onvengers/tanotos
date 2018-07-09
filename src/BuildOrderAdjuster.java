@@ -1,4 +1,5 @@
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 import bwapi.Race;
@@ -15,7 +16,7 @@ public class BuildOrderAdjuster {
 
 	private static BuildOrderAdjuster instance = new BuildOrderAdjuster();
 	// Rearrange rules
-	private List<BuildRearrangeRule> lstRearrangeRules;
+	private List<BuildRearrangeRule> lstRearrangeRules = new LinkedList<>();
 		
 	private BuildOrderAdjuster()
 	{
@@ -36,10 +37,14 @@ public class BuildOrderAdjuster {
 		}
 	}
 	
+	public void setRearrangeRules(BuildRearrangeRule buildRearrangeRule) 
+	{
+		lstRearrangeRules.add(buildRearrangeRule);
+	}
+	
 	public void rearrangeBuildOrders(BuildStrategy buildStrategy)
 	{
 		BuildRearrangeRule rule;
-		
 		for(int i=0;i<lstRearrangeRules.size();i++)
 		{
 			rule = lstRearrangeRules.get(i);

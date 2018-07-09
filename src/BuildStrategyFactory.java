@@ -41,13 +41,17 @@ public class BuildStrategyFactory {
 	public BuildStrategy createBuildStrategy(Strategy strategy)
 	{
 		BuildStrategy bs;
-		
 		if(strategy == Strategy.ADD_PROBE)
-		{
+		{	
+			System.out.println("createBuildStrategy");
 			bs = new BuildStrategyAddProbeMulti(1);
 			bs.setMyStrategy(Strategy.ADD_PROBE);
 		}
+		else
+		{
+			bs = null;
+		}
 		
-		return null;
+		return bs;
 	}
 }

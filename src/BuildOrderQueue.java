@@ -307,7 +307,14 @@ public class BuildOrderQueue {
 		// queue the item
 		queueItem(new BuildOrderItem(metaType, newPriority, blocking, producerID));
 	}
-
+	
+	// BuildOrderItem를 가장 낮은 순위로 buildQueue에 추가한다.
+	public void queueAsLowestPriority(BuildOrderItem buildOrderItem)
+	{
+		// queue the item
+		queueItem(buildOrderItem);
+	}
+	
 	public void queueAsLowestPriority(MetaType metaType, boolean blocking)
 	{
 		queueAsLowestPriority(metaType, blocking, -1);

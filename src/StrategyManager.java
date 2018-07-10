@@ -75,22 +75,23 @@ public class StrategyManager {
 
 	private void setInitializeStrategyRules() {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			
-			addStrategyRules(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
-			addStrategyRules(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
+			//일꾼
+			addStrategyRules(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
+			//서플라이
+			addStrategyRules(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
+			//건물
 			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
-			addStrategyRules(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
-			
-//			strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
-//			strategyRules.get(StrategyType.Worker).add(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
-//			strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
-//			strategyRules.get(StrategyType.Supply).add(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
-//			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
-//			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
-//			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
-//			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
-//			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
+			//업그레이드
+			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
+			//유닛
+			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 			
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
@@ -107,7 +108,7 @@ public class StrategyManager {
 		
 		strategyRules.get(rule.getStrategyType()).add(rule);
 	}
-
+	
 	public void setInitialBuildOrder() {
 		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance()
 				.createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());

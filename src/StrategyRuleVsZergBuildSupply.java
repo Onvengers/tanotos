@@ -2,9 +2,9 @@ import bwapi.Race;
 import bwapi.Unit;
 import bwapi.UnitType;
 
-public class StrategyRuleVsZergSupplyProviding extends StrategyRule {
+public class StrategyRuleVsZergBuildSupply extends StrategyRule {
 
-	public StrategyRuleVsZergSupplyProviding(StrategyType type) {
+	public StrategyRuleVsZergBuildSupply(StrategyType type) {
 		super(type);
 	}
 
@@ -69,7 +69,7 @@ public class StrategyRuleVsZergSupplyProviding extends StrategyRule {
 						}
 					}
 					if (isToEnqueue) {
-						return Strategy.ADD_SUPPLY;
+						return Strategy.BUILD_SUPPLY;
 					}
 				}
 			}

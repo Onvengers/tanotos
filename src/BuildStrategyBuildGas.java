@@ -1,8 +1,8 @@
 
 import bwapi.UnitType;
-public class BuildStrategyAddGas extends BuildStrategy {
+public class BuildStrategyBuildGas extends BuildStrategy {
 	
-	public BuildStrategyAddGas()
+	public BuildStrategyBuildGas()
 	{
 		setBuildOrder();
 	}

@@ -1,10 +1,10 @@
 
 import bwapi.UnitType;
-public class BuildStrategyAddGatewayMulti extends BuildStrategy {
+public class BuildStrategyBuildGatewayMulti extends BuildStrategy {
 	
 	private int unitCount;
 	
-	public BuildStrategyAddGatewayMulti(int count)
+	public BuildStrategyBuildGatewayMulti(int count)
 	{
 		this.unitCount = count;
 		setBuildOrder();

@@ -1,10 +1,10 @@
 
 import bwapi.UnitType;
-public class BuildStrategyAddSupplyMulti extends BuildStrategy {
+public class BuildStrategyAddArchonMulti extends BuildStrategy {
 	
 	private int unitCount;
 	
-	public BuildStrategyAddSupplyMulti(int count)
+	public BuildStrategyAddArchonMulti(int count)
 	{
 		this.unitCount = count;
 		setBuildOrder();
@@ -15,7 +15,7 @@ public class BuildStrategyAddSupplyMulti extends BuildStrategy {
 		// TODO Auto-generated method stub
 		for(int i=0;i<unitCount;i++)
 		{
-			queueBuild(true, UnitType.Protoss_Pylon);
+			queueBuildSeed(false, UnitType.Protoss_Archon, BuildOrderItem.SeedPositionStrategy.FirstExpansionLocation);
 		}		
 	}
 }

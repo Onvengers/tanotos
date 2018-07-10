@@ -20,9 +20,10 @@ public class StrategyRuleVsZergBuildGas extends StrategyRule {
 
 		if (MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Gateway) > 1
 				&& MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Zealot) > 2) {
-			return Strategy.ADD_GAS;
+			return Strategy.BUILD_GAS;
 		}
 
 		return null;
 	}
 }
+

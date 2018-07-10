@@ -14,12 +14,20 @@ public enum Strategy {
 	CHG_CARRIER,
 	CHG_LIVER,
 	//=========================== 건물
-	ADD_SUPPLY,
-	ADD_GATEWAY,
-	ADD_GAS,
+	BUILD_SUPPLY,
+	BUILD_GATEWAY,
+	BUILD_GAS,
+	BUILD_FORGE,
+	BUILD_CORE,
+	BUILD_ADUN,
 	//=========================== 유닛
 	ADD_PROBE,
 	ADD_ZEALOT,
 	ADD_HIGH_TEMPLER,
-	ADD_ARCHON
+	ADD_ARCHON,
+	//=========================== 업그레이드
+	UPGRADE_WEAPON,
+	UPGRADE_ARMOR,
+	UPGRADE_PLASMA,
+	UPGRADE_ZEALOT_LEG
 }

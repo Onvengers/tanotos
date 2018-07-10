@@ -14,8 +14,13 @@ public class BuildStrategyFactory {
 		return instance;
 	}
 	
-	public BuildStrategyFactor createBuildStrategyFactor(Strategy strategy)
+	public BuildStrategyFactor createBuildStrategyFactor(Strategy strategy) throws InstantiationException, IllegalAccessException
 	{
+		if(strategy == Strategy.SAMPLE)
+		{
+			return BuildStrategyFactor.getInstance(BuildStrategyFactorSample.class);
+		}
+		
 		return null;
 	}
 	

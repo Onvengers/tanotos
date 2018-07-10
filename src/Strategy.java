@@ -1,6 +1,7 @@
 
 public enum Strategy {
 
+	SAMPLE,
 	//========= 적 종족에 대한 기본 Build Order
 	VS_TERRAN,
 	VS_ZERG,

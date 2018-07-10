@@ -20,12 +20,17 @@ public class BuildOrderAdjuster {
 		
 	private BuildOrderAdjuster()
 	{
-		
+		setInitialBuildRearrangeRules();
 	}
 	
 	public static BuildOrderAdjuster getInstance()
 	{
 		return instance;
+	}
+
+	private void setInitialBuildRearrangeRules() {
+		// 현재는 룰이 Strategy를 제어하지 않도록 한다. 추후 개발 예정
+		lstRearrangeRules.add(new BuildRearrangeRuleDoEverything());
 	}
 
 	public void initialBuildOrders(BuildStrategy buildStrategy)
@@ -36,12 +41,7 @@ public class BuildOrderAdjuster {
 			buildStrategy.getBuildOrder().removeHighestPriorityItem();
 		}
 	}
-	
-	public void setRearrangeRules(BuildRearrangeRule buildRearrangeRule) 
-	{
-		lstRearrangeRules.add(buildRearrangeRule);
-	}
-	
+
 	public void rearrangeBuildOrders(BuildStrategy buildStrategy)
 	{
 		BuildRearrangeRule rule;

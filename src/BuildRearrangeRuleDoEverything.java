@@ -11,8 +11,11 @@ public class BuildRearrangeRuleDoEverything extends BuildRearrangeRule{
 	public void rearrange(BuildOrderQueue queue, BuildStrategy buildStrategy) {
 		// TODO Auto-generated method stub
 		BuildOrderQueue tmpBuildQueue = buildStrategy.getBuildOrder();
-		for(int i=0; i<tmpBuildQueue.size(); i++) {
-			BuildManager.Instance().buildQueue.queueAsLowestPriority(tmpBuildQueue.getHighestPriorityItem());
+		
+		while(!tmpBuildQueue.isEmpty())
+		{
+			queue.queueAsLowestPriority(tmpBuildQueue.getHighestPriorityItem());			
+			tmpBuildQueue.removeHighestPriorityItem();
 		}
 		
 	}

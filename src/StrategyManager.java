@@ -71,36 +71,47 @@ public class StrategyManager {
 		// Strategy rule을 로딩합니다.
 		setInitializeStrategyRules();
 		// setInitialBuildOrder();
-		// BuildOrderAdjuster의 lstRearrangeRules를 Set합니다.
-		setInitialBuildRearrangeRules();
 	}
 
 	private void setInitializeStrategyRules() {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.Worker).add(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
-			strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.Supply).add(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
-			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
-			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
-			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
+			
+			addStrategyRules(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
+			addStrategyRules(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
+			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
+			
+//			strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
+//			strategyRules.get(StrategyType.Worker).add(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
+//			strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
+//			strategyRules.get(StrategyType.Supply).add(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
+//			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
+//			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
+//			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
+//			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
+//			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
+			
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {
 		}
+	}
+	
+	private void addStrategyRules(StrategyRule rule)
+	{
+		if(!strategyRules.containsKey(rule.getStrategyType()))
+		{
+			strategyRules.put(rule.getStrategyType(), new LinkedList<StrategyRule>());
+		}
+		
+		strategyRules.get(rule.getStrategyType()).add(rule);
 	}
 
 	public void setInitialBuildOrder() {
 		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance()
 				.createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());
 		BuildOrderAdjuster.getInstance().initialBuildOrders(initBuildStrategy);
-	}
-
-	public void setInitialBuildRearrangeRules() {
-		// 현재는 룰이 Strategy를 제어하지 않도록 한다. 추후 개발 예정
-		BuildOrderAdjuster.getInstance().setRearrangeRules(new BuildRearrangeRuleDoEverything());
 	}
 
 	/// 경기가 종료될 때 일회적으로 전략 결과 정리 관련 로직을 실행합니다

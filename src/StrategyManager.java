@@ -77,15 +77,27 @@ public class StrategyManager {
 
 	private void setInitializeStrategyRules() {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
+			//일꾼
 			strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.Worker).add(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
+			strategyRules.get(StrategyType.Worker).add(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
+			//서플라이
 			strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.Supply).add(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
+			strategyRules.get(StrategyType.Supply).add(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
+			//건물
 			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
 			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
 			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
+			//업그레이드
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
+			//유닛
 			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
+			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
+			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
+			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {

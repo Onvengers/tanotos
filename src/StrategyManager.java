@@ -29,7 +29,7 @@ public class StrategyManager {
 	private boolean isFullScaleAttackStarted;
 	private boolean isInitialBuildOrderFinished;
 	private boolean isBuildedAdun;
-	
+
 	private Map<StrategyType, List<StrategyRule>> strategyRules = new HashMap<StrategyType, List<StrategyRule>>();
 
 	// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
@@ -67,50 +67,53 @@ public class StrategyManager {
 	public void onStart() {
 
 		loadGameRecordList();
-		
+
 		// Strategy rule을 로딩합니다.
 		setInitializeStrategyRules();
-		//setInitialBuildOrder();
+		// setInitialBuildOrder();
 		// BuildOrderAdjuster의 lstRearrangeRules를 Set합니다.
 		setInitialBuildRearrangeRules();
 	}
-	
-	private void setInitializeStrategyRules()
-	{	
-		strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
-		strategyRules.get(StrategyType.Worker).add(new StrategyRuleWorkerTraining(StrategyType.Worker));
-		strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
-		strategyRules.get(StrategyType.Supply).add(new StrategyRuleSupplyProviding(StrategyType.Supply));
-		strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
-		strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGateway(StrategyType.CombatBuild));
-		strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
-		strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleZealotTraining(StrategyType.CombatUnit));
+
+	private void setInitializeStrategyRules() {
+		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
+			strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
+			strategyRules.get(StrategyType.Worker).add(new StrategyRuleWorkerTraining(StrategyType.Worker));
+			strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
+			strategyRules.get(StrategyType.Supply).add(new StrategyRuleSupplyProviding(StrategyType.Supply));
+			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGateway(StrategyType.CombatBuild));
+			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
+			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleZealotTraining(StrategyType.CombatUnit));
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
+		} else {
+		}
 	}
 
-	public void setInitialBuildOrder() 
-	{
-		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance().createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());
+	public void setInitialBuildOrder() {
+		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance()
+				.createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());
 		BuildOrderAdjuster.getInstance().initialBuildOrders(initBuildStrategy);
 	}
-	
-	public void setInitialBuildRearrangeRules() 
-	{
+
+	public void setInitialBuildRearrangeRules() {
+		// 현재는 룰이 Strategy를 제어하지 않도록 한다. 추후 개발 예정
 		BuildOrderAdjuster.getInstance().setRearrangeRules(new BuildRearrangeRuleDoEverything());
 	}
-	
+
 	/// 경기가 종료될 때 일회적으로 전략 결과 정리 관련 로직을 실행합니다
-	public void onEnd(boolean isWinner) 
-	{
+	public void onEnd(boolean isWinner) {
 		// 과거 게임 기록 + 이번 게임 기록을 저장합니다
 		saveGameRecordList(isWinner);
 	}
 
 	/// 경기 진행 중 매 프레임마다 경기 전략 관련 로직을 실행합니다
 	public void update() {
-		
-//		if (BuildManager.Instance().buildQueue.isEmpty()) {
-//			isInitialBuildOrderFinished = true;
-//		}
+
+		// if (BuildManager.Instance().buildQueue.isEmpty()) {
+		// isInitialBuildOrderFinished = true;
+		// }
 
 		executeWorkerTraining();
 
@@ -126,68 +129,42 @@ public class StrategyManager {
 		saveGameLog();
 	}
 
-
-
 	// 일꾼 계속 추가 생산
-	public void executeWorkerTraining() 
-	{
-		BuildStrategy bs;
-		
-		for(StrategyRule rule : this.strategyRules.get(StrategyType.Worker))
-		{
-			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
-			
-			if(bs != null)
-			{
-				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
-			}
+	public void executeWorkerTraining() {
+		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
+			executeBuildStrategy(StrategyType.Worker);
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
+		} else {
 		}
 	}
 
 	// Supply DeadLock 예방 및 SupplyProvider 가 부족해질 상황 에 대한 선제적 대응으로서<br>
 	// SupplyProvider를 추가 건설/생산한다
-	public void executeSupplyManagement() 
-	{
-		BuildStrategy bs;
-		
-		for(StrategyRule rule : this.strategyRules.get(StrategyType.Supply))
-		{
-			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
-			
-			if(bs != null)
-			{
-				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
-			}
+	public void executeSupplyManagement() {
+		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
+			executeBuildStrategy(StrategyType.Supply);
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
+		} else {
 		}
 	}
 
-	public void executeCombatBuildingManagement() 
-	{
-		BuildStrategy bs;
-		
-		for(StrategyRule rule : this.strategyRules.get(StrategyType.CombatBuild))
-		{
-			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
-			
-			if(bs != null)
-			{
-				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
-			}
+	public void executeCombatBuildingManagement() {
+		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
+			executeBuildStrategy(StrategyType.CombatBuild);
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
+		} else {
 		}
 	}
 
-	public void executeBasicCombatUnitTraining() 
-	{
-		BuildStrategy bs;
-		
-		for(StrategyRule rule : this.strategyRules.get(StrategyType.CombatUnit))
-		{
-			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());	
-			
-			if(bs != null)
-			{
-				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
-			}
+	public void executeBasicCombatUnitTraining() {
+		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
+			executeBuildStrategy(StrategyType.CombatUnit);
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
+		} else {
 		}
 	}
 
@@ -262,8 +239,19 @@ public class StrategyManager {
 		}
 	}
 
-	// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
-	// 경기 결과 파일 Save / Load 및 로그파일 Save 예제 추가
+	private void executeBuildStrategy(StrategyType strategyType) {
+		BuildStrategy bs;
+
+		for (StrategyRule rule : this.strategyRules.get(strategyType)) {
+			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());
+
+			if (bs != null) {
+				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
+			}
+		}
+
+		return;
+	}
 
 	/// 과거 전체 게임 기록을 로딩합니다
 	void loadGameRecordList() {

@@ -12,10 +12,12 @@ public enum Strategy {
 	//========= 테크트리 변형용 Build Order
 	CHG_CARRIER,
 	CHG_LIVER,
-	//===========================
-	ADD_PROBE,
+	//=========================== 건물
 	ADD_SUPPLY,
 	ADD_GATEWAY,
+	ADD_GAS,
+	//=========================== 유닛
+	ADD_PROBE,
 	ADD_ZEALOT,
 	ADD_HIGH_TEMPLER,
 	ADD_ARCHON

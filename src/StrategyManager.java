@@ -83,6 +83,7 @@ public class StrategyManager {
 			strategyRules.get(StrategyType.Supply).add(new StrategyRuleSupplyProviding(StrategyType.Supply));
 			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
 			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGateway(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGas(StrategyType.CombatBuild));
 			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
 			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleZealotTraining(StrategyType.CombatUnit));
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {

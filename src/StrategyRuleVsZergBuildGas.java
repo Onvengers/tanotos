@@ -3,16 +3,18 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import bwapi.UpgradeType;
 
-public class StrategyRuleBuildGas extends StrategyRule {
+public class StrategyRuleVsZergBuildGas extends StrategyRule {
 
-	public StrategyRuleBuildGas(StrategyType type) {
+	public StrategyRuleVsZergBuildGas(StrategyType type) {
 		super(type);
 	}
 
 	@Override
 	public Strategy judgeStrategy() {
 
-		if (MyBotModule.Broodwar.getFrameCount() % 120 != 0) {
+		if ((MyBotModule.Broodwar.getFrameCount() % 120 != 0) ||
+				((BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Assimilator)) > 0) ||
+				((MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Assimilator)) > 0)) {
 			return null;
 		}
 

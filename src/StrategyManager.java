@@ -78,14 +78,14 @@ public class StrategyManager {
 	private void setInitializeStrategyRules() {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
 			strategyRules.put(StrategyType.Worker, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.Worker).add(new StrategyRuleWorkerTraining(StrategyType.Worker));
+			strategyRules.get(StrategyType.Worker).add(new StrategyRuleVsZergWorkerTraining(StrategyType.Worker));
 			strategyRules.put(StrategyType.Supply, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.Supply).add(new StrategyRuleSupplyProviding(StrategyType.Supply));
+			strategyRules.get(StrategyType.Supply).add(new StrategyRuleVsZergSupplyProviding(StrategyType.Supply));
 			strategyRules.put(StrategyType.CombatBuild, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGateway(StrategyType.CombatBuild));
-			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleBuildGas(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
+			strategyRules.get(StrategyType.CombatBuild).add(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
 			strategyRules.put(StrategyType.CombatUnit, new LinkedList<StrategyRule>());
-			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleZealotTraining(StrategyType.CombatUnit));
+			strategyRules.get(StrategyType.CombatUnit).add(new StrategyRuleVsZergZealotTraining(StrategyType.CombatUnit));
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {

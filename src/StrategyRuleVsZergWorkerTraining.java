@@ -1,9 +1,9 @@
 import bwapi.Race;
 import bwapi.Unit;
 
-public class StrategyRuleWorkerTraining extends StrategyRule {
+public class StrategyRuleVsZergWorkerTraining extends StrategyRule {
 
-	public StrategyRuleWorkerTraining(StrategyType type) {
+	public StrategyRuleVsZergWorkerTraining(StrategyType type) {
 		super(type);
 	}
 

@@ -3,9 +3,9 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import bwapi.UpgradeType;
 
-public class StrategyRuleBuildGateway extends StrategyRule {
+public class StrategyRuleVsZergBuildGateway extends StrategyRule {
 
-	public StrategyRuleBuildGateway(StrategyType type) {
+	public StrategyRuleVsZergBuildGateway(StrategyType type) {
 		super(type);
 	}
 
@@ -30,7 +30,8 @@ public class StrategyRuleBuildGateway extends StrategyRule {
 
 		else if (MyBotModule.Broodwar.self().minerals() > 400
 				&& MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Gateway)
-						+ BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Gateway) < 6) {
+						+ BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Gateway) < 6
+				&& MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Probe) > 20) {
 			return Strategy.ADD_GATEWAY;
 		}
 

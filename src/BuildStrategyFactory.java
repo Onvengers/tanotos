@@ -61,6 +61,11 @@ public class BuildStrategyFactory {
 			bs = new BuildStrategyAddZealotMulti(1);
 			bs.setMyStrategy(Strategy.ADD_ZEALOT);
 		}
+		else if (strategy == Strategy.ADD_GAS)
+		{
+			bs = new BuildStrategyAddGas();
+			bs.setMyStrategy(Strategy.ADD_GAS);
+		}
 		else
 		{
 			bs = null;

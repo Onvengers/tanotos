@@ -23,7 +23,6 @@ public class StrategyRuleVsZergBuildAdun extends StrategyRule {
 			chkBuildAdun = true;
 			return Strategy.BUILD_ADUN;
 		}
-
 		return null;
 	}
 }

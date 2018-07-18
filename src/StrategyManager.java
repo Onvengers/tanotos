@@ -43,7 +43,7 @@ public class StrategyManager {
 		String myRace;
 		int gameFrameCount = 0;
 		int myWinCount = 0;
-		int myLoseCount = 0;
+		int myLoseCount = 0; 
 	}
 
 	/// 과거 전체 게임들의 기록을 저장하는 자료구조
@@ -108,6 +108,24 @@ public class StrategyManager {
 			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
+			// 일꾼
+			addStrategyRules(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
+			// 서플라이
+			addStrategyRules(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
+			// 건물
+			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
+			// 업그레이드
+			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
+			// 유닛
+			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		} else {
 		}
 	}

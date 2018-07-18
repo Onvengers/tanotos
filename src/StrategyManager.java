@@ -23,7 +23,6 @@ import bwta.Chokepoint;
 public class StrategyManager {
 
 	private static StrategyManager instance = new StrategyManager();
-
 	private CommandUtil commandUtil = new CommandUtil();
 
 	private boolean isFullScaleAttackStarted;
@@ -32,7 +31,6 @@ public class StrategyManager {
 
 	private Map<StrategyType, List<StrategyRule>> strategyRules = new HashMap<StrategyType, List<StrategyRule>>();
 
-	// BasicBot 1.1 Patch Start ////////////////////////////////////////////////
 	// 경기 결과 파일 Save / Load 및 로그파일 Save 예제 추가를 위한 변수 및 메소드 선언
 
 	/// 한 게임에 대한 기록을 저장하는 자료구조
@@ -51,8 +49,6 @@ public class StrategyManager {
 	/// 과거 전체 게임들의 기록을 저장하는 자료구조
 	ArrayList<GameRecord> gameRecordList = new ArrayList<GameRecord>();
 
-	// BasicBot 1.1 Patch End //////////////////////////////////////////////////
-
 	/// static singleton 객체를 리턴합니다
 	public static StrategyManager Instance() {
 		return instance;
@@ -65,7 +61,6 @@ public class StrategyManager {
 
 	/// 경기가 시작될 때 일회적으로 전략 초기 세팅 관련 로직을 실행합니다
 	public void onStart() {
-
 		loadGameRecordList();
 		StatusIndicator.Instance();
 		// Strategy rule을 로딩합니다.
@@ -75,40 +70,40 @@ public class StrategyManager {
 
 	private void setInitializeStrategyRules() {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			//일꾼
+			// 일꾼
 			addStrategyRules(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
-			//서플라이
+			// 서플라이
 			addStrategyRules(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
-			//건물
+			// 건물
 			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
-			//업그레이드
-			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
-			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
-			//유닛
+			// 업그레이드
+			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.Upgrade));
+			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.Upgrade));
+			// 유닛
 			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
-			//일꾼
+			// 일꾼
 			addStrategyRules(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
-			//서플라이
+			// 서플라이
 			addStrategyRules(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
-			//건물
+			// 건물
 			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
-			//업그레이드
+			// 업그레이드
 			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
-			//유닛
+			// 유닛
 			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
@@ -116,17 +111,15 @@ public class StrategyManager {
 		} else {
 		}
 	}
-	
-	private void addStrategyRules(StrategyRule rule)
-	{
-		if(!strategyRules.containsKey(rule.getStrategyType()))
-		{
+
+	private void addStrategyRules(StrategyRule rule) {
+		if (!strategyRules.containsKey(rule.getStrategyType())) {
 			strategyRules.put(rule.getStrategyType(), new LinkedList<StrategyRule>());
 		}
-		
+
 		strategyRules.get(rule.getStrategyType()).add(rule);
 	}
-	
+
 	public void setInitialBuildOrder() {
 		BuildStrategy initBuildStrategy = BuildStrategyFactory.getInstance()
 				.createBuildStrategy(MyBotModule.Broodwar.enemy().getRace());
@@ -142,67 +135,47 @@ public class StrategyManager {
 	/// 경기 진행 중 매 프레임마다 경기 전략 관련 로직을 실행합니다
 	public void update() {
 
-		// if (BuildManager.Instance().buildQueue.isEmpty()) {
-		// isInitialBuildOrderFinished = true;
-		// }
-
 		executeWorkerTraining();
 
 		executeSupplyManagement();
 
-		executeCombatBuildingManagement();
+		executeBuildingManagement();
 
-		executeBasicCombatUnitTraining();
+		executeCombatUnitTraining();
+
+		executeUpgradeManagement();
 
 		executeCombat();
 
-		// 이번 게임의 로그를 남깁니다
-		saveGameLog();
+		// saveGameLog();
 	}
 
-	// 일꾼 계속 추가 생산
+	// 일꾼 생산
 	public void executeWorkerTraining() {
-		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			executeBuildStrategy(StrategyType.Worker);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
-			executeBuildStrategy(StrategyType.Worker);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
-		} else {
-		}
+		executeBuildStrategy(StrategyType.Worker);
 	}
 
-	// Supply DeadLock 예방 및 SupplyProvider 가 부족해질 상황 에 대한 선제적 대응으로서<br>
-	// SupplyProvider를 추가 건설/생산한다
+	// 파일럿 관리
 	public void executeSupplyManagement() {
-		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			executeBuildStrategy(StrategyType.Supply);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
-			executeBuildStrategy(StrategyType.Supply);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
-		} else {
-		}
+		executeBuildStrategy(StrategyType.Supply);
 	}
 
-	public void executeCombatBuildingManagement() {
-		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			executeBuildStrategy(StrategyType.CombatBuild);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
-			executeBuildStrategy(StrategyType.CombatBuild);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
-		} else {
-		}
+	// 건물 생산
+	public void executeBuildingManagement() {
+		executeBuildStrategy(StrategyType.CombatBuild);
 	}
 
-	public void executeBasicCombatUnitTraining() {
-		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
-			executeBuildStrategy(StrategyType.CombatUnit);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
-			executeBuildStrategy(StrategyType.CombatUnit);
-		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
-		} else {
-		}
+	// 공격유닛 생산
+	public void executeCombatUnitTraining() {
+		executeBuildStrategy(StrategyType.CombatUnit);
 	}
 
+	// 업그레이드 관리
+	public void executeUpgradeManagement() {
+		executeBuildStrategy(StrategyType.Upgrade);
+	}
+
+	// 전투 관리
 	public void executeCombat() {
 
 		// 공격 모드가 아닐 때에는 전투유닛들을 아군 진영 길목에 집결시켜서 방어

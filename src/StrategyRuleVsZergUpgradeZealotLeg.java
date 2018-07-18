@@ -6,6 +6,8 @@ import bwapi.WeaponType;
 
 public class StrategyRuleVsZergUpgradeZealotLeg extends StrategyRule {
 
+	private boolean chkUpgradeZealotLeg = false;
+	
 	public StrategyRuleVsZergUpgradeZealotLeg(StrategyType type) {
 		super(type);
 	}
@@ -14,8 +16,7 @@ public class StrategyRuleVsZergUpgradeZealotLeg extends StrategyRule {
 	public Strategy judgeStrategy() {
 
 		if (MyBotModule.Broodwar.getFrameCount() % 120 != 0
-				|| BuildManager.Instance().buildQueue.getItemCount(UpgradeType.Leg_Enhancements) > 0
-				|| MyBotModule.Broodwar.self().getUpgradeLevel(UpgradeType.Leg_Enhancements) == 1) {
+				|| chkUpgradeZealotLeg == true) {
 			return null;
 		}
 
@@ -23,6 +24,7 @@ public class StrategyRuleVsZergUpgradeZealotLeg extends StrategyRule {
 				&& MyBotModule.Broodwar.self().supplyUsed() < 400) {
 			for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
 				if (unit.getType() == UnitType.Protoss_Citadel_of_Adun && unit.isTraining() == false) {
+					chkUpgradeZealotLeg = true;
 					return Strategy.UPGRADE_ZEALOT_LEG;
 				}
 			}

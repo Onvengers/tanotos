@@ -67,7 +67,7 @@ public class StrategyManager {
 	public void onStart() {
 
 		loadGameRecordList();
-
+		StatusIndicator.Instance();
 		// Strategy rule을 로딩합니다.
 		setInitializeStrategyRules();
 		// setInitialBuildOrder();
@@ -85,6 +85,7 @@ public class StrategyManager {
 			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
 			//업그레이드
 			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
@@ -92,8 +93,25 @@ public class StrategyManager {
 			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
-			
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+			//일꾼
+			addStrategyRules(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
+			//서플라이
+			addStrategyRules(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
+			//건물
+			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
+			//업그레이드
+			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
+			//유닛
+			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {
 		}
@@ -147,6 +165,7 @@ public class StrategyManager {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
 			executeBuildStrategy(StrategyType.Worker);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+			executeBuildStrategy(StrategyType.Worker);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {
 		}
@@ -158,6 +177,7 @@ public class StrategyManager {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
 			executeBuildStrategy(StrategyType.Supply);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+			executeBuildStrategy(StrategyType.Supply);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {
 		}
@@ -167,6 +187,7 @@ public class StrategyManager {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
 			executeBuildStrategy(StrategyType.CombatBuild);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+			executeBuildStrategy(StrategyType.CombatBuild);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {
 		}
@@ -176,6 +197,7 @@ public class StrategyManager {
 		if (MyBotModule.Broodwar.enemy().getRace() == Race.Zerg) {
 			executeBuildStrategy(StrategyType.CombatUnit);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Terran) {
+			executeBuildStrategy(StrategyType.CombatUnit);
 		} else if (MyBotModule.Broodwar.enemy().getRace() == Race.Protoss) {
 		} else {
 		}

@@ -78,6 +78,11 @@ public class BuildStrategyFactory {
 			bs = new BuildStrategyBuildAdun();
 			bs.setMyStrategy(Strategy.BUILD_ADUN);
 		}
+		else if (strategy == Strategy.BUILD_TEMPLAR_ARCHIVE)
+		{
+			bs = new BuildStrategyBuildTemplarArchive();
+			bs.setMyStrategy(Strategy.BUILD_TEMPLAR_ARCHIVE);
+		}
 		
 		//유닛생산
 		else if(strategy == Strategy.ADD_PROBE)

@@ -5,6 +5,8 @@ import bwapi.UpgradeType;
 
 public class StrategyRuleVsZergBuildForge extends StrategyRule {
 
+	private boolean chkBuildForge = false;
+
 	public StrategyRuleVsZergBuildForge(StrategyType type) {
 		super(type);
 	}
@@ -13,14 +15,12 @@ public class StrategyRuleVsZergBuildForge extends StrategyRule {
 	public Strategy judgeStrategy() {
 
 		if (MyBotModule.Broodwar.getFrameCount() % 120 != 0
-				|| (BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Forge)) > 0
-				|| (MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Forge) > 0)) {
+				|| chkBuildForge == true) {
 			return null;
-		}
-
-		if (MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Gateway) > 1
+		} else if (MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Gateway) > 1
 				&& MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Zealot) > 2
 				&& MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Assimilator) > 0) {
+			chkBuildForge = true;
 			return Strategy.BUILD_FORGE;
 		}
 

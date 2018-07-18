@@ -20,6 +20,7 @@ public enum Strategy {
 	BUILD_FORGE,
 	BUILD_CORE,
 	BUILD_ADUN,
+	BUILD_TEMPLAR_ARCHIVE,
 	//=========================== 유닛
 	ADD_PROBE,
 	ADD_ZEALOT,

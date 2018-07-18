@@ -14,7 +14,7 @@ public class BuildRearrangeRuleDoEverything extends BuildRearrangeRule{
 		
 		while(!tmpBuildQueue.isEmpty())
 		{
-			queue.queueAsLowestPriority(tmpBuildQueue.getHighestPriorityItem());			
+			queue.queueAsLowestPriority(tmpBuildQueue.getHighestPriorityItem());	
 			tmpBuildQueue.removeHighestPriorityItem();
 		}
 		

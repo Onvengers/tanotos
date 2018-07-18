@@ -5,6 +5,8 @@ import bwapi.UpgradeType;
 
 public class StrategyRuleVsZergBuildAdun extends StrategyRule {
 
+	private boolean chkBuildAdun = false;
+	
 	public StrategyRuleVsZergBuildAdun(StrategyType type) {
 		super(type);
 	}
@@ -13,12 +15,12 @@ public class StrategyRuleVsZergBuildAdun extends StrategyRule {
 	public Strategy judgeStrategy() {
 
 		if (MyBotModule.Broodwar.getFrameCount() % 120 != 0
-				|| (BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Citadel_of_Adun)) > 0
-				|| (MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Citadel_of_Adun) > 0)) {
+				|| chkBuildAdun == true) {
 			return null;
 		}
 
 		if (MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Cybernetics_Core) > 0) {
+			chkBuildAdun = true;
 			return Strategy.BUILD_ADUN;
 		}
 

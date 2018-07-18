@@ -36,7 +36,7 @@ public class GameCommander {
 			return;
 		}
 
-		if ( isToFindError) System.out.print("(a");
+		if ( isToFindError) System.out.print("a");
 
 		// 아군 베이스 위치. 적군 베이스 위치. 각 유닛들의 상태정보 등을 Map 자료구조에 저장/업데이트
 		InformationManager.Instance().update();

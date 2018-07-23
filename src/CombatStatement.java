@@ -1,3 +1,5 @@
+import java.util.List;
+
 import bwapi.TilePosition;
 import bwapi.Unit;
 
@@ -18,7 +20,7 @@ public class CombatStatement {
 	 */
 	
 	public int executeQuery(Unit condSubject, TilePosition condLoc, ICombatStatus condStatus
-			, Unit actSubject, TilePosition actLoc, Unit actObject, ICombatAction actAction)
+			, List<Unit> actSubject, TilePosition actLoc, Unit actObject, ICombatAction actAction)
 	{		
 		if(condStatus != null)
 		{

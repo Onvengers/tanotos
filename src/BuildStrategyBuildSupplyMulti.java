@@ -7,7 +7,6 @@ public class BuildStrategyBuildSupplyMulti extends BuildStrategy {
 	public BuildStrategyBuildSupplyMulti(int count)
 	{
 		this.unitCount = count;
-		setBuildOrder();
 	}
 
 	@Override

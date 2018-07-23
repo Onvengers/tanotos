@@ -280,6 +280,7 @@ public class StrategyManager {
 			bs = BuildStrategyFactory.getInstance().createBuildStrategy(rule.judgeStrategy());
 
 			if (bs != null) {
+				bs.setBuildOrder();
 				BuildOrderAdjuster.getInstance().rearrangeBuildOrders(bs);
 			}
 		}

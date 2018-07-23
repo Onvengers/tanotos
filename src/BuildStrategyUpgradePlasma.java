@@ -1,12 +1,6 @@
 
-import bwapi.UnitType;
 import bwapi.UpgradeType;
 public class BuildStrategyUpgradePlasma extends BuildStrategy {
-	
-	public BuildStrategyUpgradePlasma()
-	{
-		setBuildOrder();
-	}
 
 	@Override
 	public void setBuildOrder() {

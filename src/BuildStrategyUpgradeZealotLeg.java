@@ -1,12 +1,6 @@
 
-import bwapi.UnitType;
 import bwapi.UpgradeType;
 public class BuildStrategyUpgradeZealotLeg extends BuildStrategy {
-	
-	public BuildStrategyUpgradeZealotLeg()
-	{
-		setBuildOrder();
-	}
 
 	@Override
 	public void setBuildOrder() {

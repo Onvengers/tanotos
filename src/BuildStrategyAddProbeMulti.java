@@ -7,7 +7,6 @@ public class BuildStrategyAddProbeMulti extends BuildStrategy {
 	public BuildStrategyAddProbeMulti(int count)
 	{
 		this.unitCount = count;
-		setBuildOrder();
 	}
 
 	@Override

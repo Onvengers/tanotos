@@ -1,12 +1,6 @@
 
-import bwapi.UnitType;
 import bwapi.UpgradeType;
 public class BuildStrategyUpgradeGroundWeapon extends BuildStrategy {
-	
-	public BuildStrategyUpgradeGroundWeapon()
-	{
-		setBuildOrder();
-	}
 
 	@Override
 	public void setBuildOrder() {

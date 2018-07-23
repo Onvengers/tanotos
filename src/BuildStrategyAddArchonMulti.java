@@ -7,7 +7,6 @@ public class BuildStrategyAddArchonMulti extends BuildStrategy {
 	public BuildStrategyAddArchonMulti(int count)
 	{
 		this.unitCount = count;
-		setBuildOrder();
 	}
 
 	@Override

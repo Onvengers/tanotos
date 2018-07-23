@@ -7,7 +7,6 @@ public class BuildStrategyAddHighTemplerMulti extends BuildStrategy {
 	public BuildStrategyAddHighTemplerMulti(int count)
 	{
 		this.unitCount = count;
-		setBuildOrder();
 	}
 
 	@Override

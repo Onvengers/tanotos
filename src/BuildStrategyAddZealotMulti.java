@@ -7,7 +7,6 @@ public class BuildStrategyAddZealotMulti extends BuildStrategy {
 	public BuildStrategyAddZealotMulti(int count)
 	{
 		this.unitCount = count;
-		setBuildOrder();
 	}
 
 	@Override

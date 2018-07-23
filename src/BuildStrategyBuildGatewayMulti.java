@@ -7,7 +7,6 @@ public class BuildStrategyBuildGatewayMulti extends BuildStrategy {
 	public BuildStrategyBuildGatewayMulti(int count)
 	{
 		this.unitCount = count;
-		setBuildOrder();
 	}
 
 	@Override

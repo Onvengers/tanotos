@@ -1,11 +1,6 @@
 
 import bwapi.UnitType;
 public class BuildStrategyBuildGas extends BuildStrategy {
-	
-	public BuildStrategyBuildGas()
-	{
-		setBuildOrder();
-	}
 
 	@Override
 	public void setBuildOrder() {

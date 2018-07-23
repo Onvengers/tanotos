@@ -19,6 +19,18 @@ public class CombatStatement {
 	 * 2 : CombatStatus 가 없어서  Action 수행함
 	 */
 	
+	private static CombatStatement instance = new CombatStatement();
+	
+	public static CombatStatement getInstance()
+	{
+		return instance;
+	}
+	
+	private CombatStatement()
+	{
+		
+	}
+	
 	public int executeQuery(Unit condSubject, TilePosition condLoc, ICombatStatus condStatus
 			, List<Unit> actSubject, TilePosition actLoc, Unit actObject, ICombatAction actAction)
 	{		

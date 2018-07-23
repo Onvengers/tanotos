@@ -195,6 +195,14 @@ public class StrategyManager {
 
 	// 전투 관리
 	public void executeCombat() {
+		
+		/*
+		 * CombatStatement 실행 예제
+		 */		
+//		CombatStatement cbStatement = CombatStatement.getInstance();		
+//		cbStatement.executeQuery(condSubject, condLoc, condStatus, actSubject, actLoc, actObject, actAction);
+//		cbStatement.executeQuery(condSubject, condLoc, condStatus, actSubject, actLoc, actObject, actAction);
+		
 
 		// 공격 모드가 아닐 때에는 전투유닛들을 아군 진영 길목에 집결시켜서 방어
 		if (isFullScaleAttackStarted == false) {

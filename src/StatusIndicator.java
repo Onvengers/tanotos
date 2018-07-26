@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bwapi.Position;
 import bwapi.UnitType;
 
 /**
@@ -14,6 +15,7 @@ public class StatusIndicator {
 
 	private static StatusIndicator instance = new StatusIndicator();
 	private Map<UnitType, Integer> unitCount = new HashMap<UnitType, Integer>();
+	private Map<MapSection, Position> absMapPos = new HashMap<MapSection, Position>();
 
 	private StatusIndicator() {
 	}
@@ -31,5 +33,10 @@ public class StatusIndicator {
 			unitCount.put(metaType.getUnitType(), unitCount.get(metaType.getUnitType()) + count);
 		}
 		return;
+	}
+
+	public Position getAbsMapPosition(MapSection section) {
+		
+		return absMapPos.get(section);
 	}
 }

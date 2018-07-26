@@ -76,9 +76,9 @@ public class Config {
 	/// 화면 표시 여부 - 미네랄, 가스
 	public static boolean DrawResourceInfo = false;
 	/// 화면 표시 여부 - 지도
-	public static boolean DrawBWTAInfo = false;
+	public static boolean DrawBWTAInfo = true;
 	/// 화면 표시 여부 - 바둑판
-	public static boolean DrawMapGrid = false;
+	public static boolean DrawMapGrid = true;
 
 	/// 화면 표시 여부 - 유닛 HitPoint
 	public static boolean DrawUnitHealthBars = false;
@@ -101,7 +101,7 @@ public class Config {
 	public static boolean DrawWorkerInfo = false;
 	
 	/// 화면 표시 여부 - 마우스 커서	
-	public static boolean DrawMouseCursorInfo = false;
+	public static boolean DrawMouseCursorInfo = true;
 
 	public static final Color ColorLineTarget = Color.White;
 	public static final Color ColorLineMineral = Color.Cyan;

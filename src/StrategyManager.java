@@ -43,7 +43,7 @@ public class StrategyManager {
 		String myRace;
 		int gameFrameCount = 0;
 		int myWinCount = 0;
-		int myLoseCount = 0; 
+		int myLoseCount = 0;
 	}
 
 	/// 과거 전체 게임들의 기록을 저장하는 자료구조
@@ -101,8 +101,8 @@ public class StrategyManager {
 			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
 			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
 			// 업그레이드
-			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
-			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.Upgrade));
+			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.Upgrade));
 			// 유닛
 			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
@@ -127,6 +127,24 @@ public class StrategyManager {
 			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
 			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		} else {
+			// 일꾼
+			addStrategyRules(new StrategyRuleVsZergTrainingWorker(StrategyType.Worker));
+			// 서플라이
+			addStrategyRules(new StrategyRuleVsZergBuildSupply(StrategyType.Supply));
+			// 건물
+			addStrategyRules(new StrategyRuleVsZergBuildGateway(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildGas(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildCore(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildAdun(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergBuildTemplarArchive(StrategyType.CombatBuild));
+			// 업그레이드
+			addStrategyRules(new StrategyRuleVsZergUpgradeOnForge(StrategyType.CombatBuild));
+			addStrategyRules(new StrategyRuleVsZergUpgradeZealotLeg(StrategyType.CombatBuild));
+			// 유닛
+			addStrategyRules(new StrategyRuleVsZergTrainingZealot(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingHighTempler(StrategyType.CombatUnit));
+			addStrategyRules(new StrategyRuleVsZergTrainingArchon(StrategyType.CombatUnit));
 		}
 	}
 
@@ -195,14 +213,34 @@ public class StrategyManager {
 
 	// 전투 관리
 	public void executeCombat() {
-		
+
+		// for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
+		// // 건물은 제외
+		// if (unit.getType().isBuilding()) {
+		// continue;
+		// }
+		// // 모든 일꾼은 제외
+		// if (unit.getType().isWorker()) {
+		// continue;
+		// }
+		//
+		// // canAttack 유닛은 attackMove Command 로 공격을 보냅니다
+		// if (unit.canAttack()) {
+		// if (unit.isIdle()) {
+		// commandUtil.attackMove(unit,
+		// StatusIndicator.Instance().centerPosition.get(MyBotModule.Broodwar.getFrameCount()%15).toPosition());
+		// }
+		// }
+		// }
+
 		/*
 		 * CombatStatement 실행 예제
-		 */		
-//		CombatStatement cbStatement = CombatStatement.getInstance();		
-//		cbStatement.executeQuery(condSubject, condLoc, condStatus, actSubject, actLoc, actObject, actAction);
-//		cbStatement.executeQuery(condSubject, condLoc, condStatus, actSubject, actLoc, actObject, actAction);
-		
+		 */
+		// CombatStatement cbStatement = CombatStatement.getInstance();
+		// cbStatement.executeQuery(condSubject, condLoc, condStatus, actSubject,
+		// actLoc, actObject, actAction);
+		// cbStatement.executeQuery(condSubject, condLoc, condStatus, actSubject,
+		// actLoc, actObject, actAction);
 
 		// 공격 모드가 아닐 때에는 전투유닛들을 아군 진영 길목에 집결시켜서 방어
 		if (isFullScaleAttackStarted == false) {
@@ -227,7 +265,8 @@ public class StrategyManager {
 		// 공격 모드가 되면, 모든 전투유닛들을 적군 Main BaseLocation 로 공격 가도록 합니다
 		else {
 			// std.cout + "enemy OccupiedBaseLocations : " +
-			// InformationManager.Instance().getOccupiedBaseLocations(InformationManager.Instance()._enemy).size()
+			//
+			// InformationManager.Instance().getOccupiedBaseLocations(InformationManager.Instance().enemy()).size();
 			// + std.endl;
 
 			if (InformationManager.Instance().enemyPlayer != null

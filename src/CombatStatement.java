@@ -1,6 +1,4 @@
-import java.util.List;
-
-import bwapi.TilePosition;
+import bwapi.Position;
 import bwapi.Unit;
 
 public class CombatStatement {
@@ -19,26 +17,22 @@ public class CombatStatement {
 	 * 2 : CombatStatus 가 없어서  Action 수행함
 	 */
 	
-	private static CombatStatement instance = new CombatStatement();
-	
-	public static CombatStatement getInstance()
+	private ICombatStatus condStatus;
+	private ICombatAction actAction;
+
+	public CombatStatement(ICombatStatus condStatus, ICombatAction actAction)
 	{
-		return instance;
+		this.condStatus = condStatus;
+		this.actAction = actAction;
 	}
 	
-	private CombatStatement()
-	{
-		
-	}
-	
-	public int executeQuery(Unit condSubject, TilePosition condLoc, ICombatStatus condStatus
-			, List<Unit> actSubject, TilePosition actLoc, Unit actObject, ICombatAction actAction)
+	public int execute()
 	{		
 		if(condStatus != null)
 		{
-			if(condStatus.checkCombatStatus(condSubject, condLoc))
+			if(condStatus.checkCombatStatus())
 			{
-				actAction.act(actSubject, actLoc, actObject);
+				actAction.act();
 				return 1;  
 			}
 			else
@@ -48,7 +42,7 @@ public class CombatStatement {
 		}
 		else
 		{
-			actAction.act(actSubject, actLoc, actObject);
+			actAction.act();
 			return 2;
 		}
 	}

@@ -17,6 +17,7 @@ import bwapi.UnitType;
 public class StatusIndicator {
 
 	private static StatusIndicator instance = new StatusIndicator();
+	private Map<MapSection, Position> absMapPos = new HashMap<MapSection, Position>();
 	private Map<UnitType, Integer> unitCount = new HashMap<UnitType, Integer>();
 	public List<TilePosition> centerPosition = new ArrayList<TilePosition>();
 	private Map<Integer, List<TilePosition>> basePositions = new HashMap<>();
@@ -32,17 +33,18 @@ public class StatusIndicator {
 			{ 118, 101, 96, 92, 93, 89, 83, 93, 86, 106, 106, 124, 126, 109 } };
 
 	private StatusIndicator() {
+		
 		// center1-15까지 x,y좌표를 넣는다.
 		for (int i = 0; i < 15; i++) {
 			centerPosition.add(new TilePosition(centerX[i], centerY[i]));
 		}
-		
+
 		basePositions.put(1, new ArrayList<TilePosition>());
 		basePositions.put(11, new ArrayList<TilePosition>());
 		basePositions.put(5, new ArrayList<TilePosition>());
 		basePositions.put(7, new ArrayList<TilePosition>());
-		
-		for(int i=0; i<14; i++) {
+
+		for (int i = 0; i < 14; i++) {
 			basePositions.get(11).add(new TilePosition(baseX[0][i], baseY[0][i]));
 			basePositions.get(1).add(new TilePosition(baseX[1][i], baseY[1][i]));
 			basePositions.get(5).add(new TilePosition(baseX[2][i], baseY[2][i]));
@@ -63,5 +65,10 @@ public class StatusIndicator {
 			unitCount.put(metaType.getUnitType(), unitCount.get(metaType.getUnitType()) + count);
 		}
 		return;
+	}
+
+	public Position getAbsMapPosition(MapSection section) {
+
+		return absMapPos.get(section);
 	}
 }

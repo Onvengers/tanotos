@@ -18,6 +18,10 @@ public abstract class Troop implements Comparable<Troop> {
 		this.priority = priority;
 	}
 
+	public int getSize() {
+		return units.size();
+	}
+	
 	public TroopCommand getCommand()
 	{
 		return command;
@@ -33,15 +37,28 @@ public abstract class Troop implements Comparable<Troop> {
 		units.add(unit);
 	}
 	
+	public void resignUnit(Unit resignedUnit)
+	{
+		for(Unit unit : units) {
+			if(unit.getID() == resignedUnit.getID()) {
+				units.remove(unit);
+				return;
+			}
+		}
+	}
+	
 	public abstract int update();
 	
 	public abstract void command(TroopCommand cmd, Object param);
+	
+	public abstract void command(TroopCommand cmd, Object param1, Object param2);
 }
 
 enum TroopCommand
 {
 	MOVE,
 	ATTACK_UNIT,
+	ATTACK_SECTION,
 	ATTACK_GROUND,
 	HOLD,
 	ATTACK_STORM,

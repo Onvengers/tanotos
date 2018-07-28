@@ -181,7 +181,7 @@ public class StrategyManager {
 
 		executeUpgradeManagement();
 
-		executeCombat();
+		//executeCombat();
 
 		// saveGameLog();
 	}
@@ -213,25 +213,6 @@ public class StrategyManager {
 
 	// 전투 관리
 	public void executeCombat() {
-
-		// for (Unit unit : MyBotModule.Broodwar.self().getUnits()) {
-		// // 건물은 제외
-		// if (unit.getType().isBuilding()) {
-		// continue;
-		// }
-		// // 모든 일꾼은 제외
-		// if (unit.getType().isWorker()) {
-		// continue;
-		// }
-		//
-		// // canAttack 유닛은 attackMove Command 로 공격을 보냅니다
-		// if (unit.canAttack()) {
-		// if (unit.isIdle()) {
-		// commandUtil.attackMove(unit,
-		// StatusIndicator.Instance().centerPosition.get(MyBotModule.Broodwar.getFrameCount()%15).toPosition());
-		// }
-		// }
-		// }
 
 		/*
 		 * CombatStatement 실행 예제
@@ -301,7 +282,6 @@ public class StrategyManager {
 
 						// canAttack 유닛은 attackMove Command 로 공격을 보냅니다
 						if (unit.canAttack()) {
-
 							if (unit.isIdle()) {
 								commandUtil.attackMove(unit, targetBaseLocation.getPosition());
 							}

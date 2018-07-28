@@ -12,7 +12,7 @@ public class CombatManager {
 	
 	private static CombatManager instance = new CombatManager();
 	
-	public static CombatManager getInstance()
+	public static CombatManager Instance()
 	{
 		return instance;
 	}
@@ -25,27 +25,19 @@ public class CombatManager {
 	private void initStatements()
 	{
 		// 기본 전투 statements 추가
-		Troop zealots = TroopManager.getInstance().getTroop(UnitType.Protoss_Zealot);
-		Troop dragoons = TroopManager.getInstance().getTroop(UnitType.Protoss_Dragoon);
-		
-		BaseLocation targetBaseLocation = null;
-		double closestDistance = 100000000;
-
-		for (BaseLocation baseLocation : InformationManager.Instance()
-				.getOccupiedBaseLocations(InformationManager.Instance().enemyPlayer)) {
-			double distance = BWTA.getGroundDistance(InformationManager.Instance()
-					.getMainBaseLocation(InformationManager.Instance().selfPlayer).getTilePosition(),
-					baseLocation.getTilePosition());
-
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				targetBaseLocation = baseLocation;
-			}
-		}
+		Troop zealots = TroopManager.Instance().getTroop(UnitType.Protoss_Zealot);
+		Troop dragoons = TroopManager.Instance().getTroop(UnitType.Protoss_Dragoon);
+		Troop workers= TroopManager.Instance().getTroop(UnitType.Protoss_Probe);
 		
 		// Zealot troop 이 공격준비가 되면 ENEMY_MAIN_CENTER 를 공격한다.
+//		addStatement(new CombatStatusReadyToCombat(zealots)
+//				, new CombatActionAttackGround(zealots, LocationManager.getInstance().getSectionPosition(SectionOf.CENTER, 1)));
 		addStatement(new CombatStatusReadyToCombat(zealots)
-				, new CombatActionAttackGround(zealots, targetBaseLocation.getPosition()));
+				, new CombatActionAttackSection(zealots, SectionOf.CENTER, MapSection.CENTER1));
+//		addStatement(new CombatStatusReadyToCombat(dragoons)
+//				, new CombatActionAttackGround(dragoons, LocationManager.getInstance().getSectionPosition(SectionOf.CENTER, 1)));
+//		addStatement(new CombatStatusReadyToCombat(workers)
+//				, new CombatActionAttackSection(workers, SectionOf.CENTER, MapSection.CENTER1));
 	}
 	
 	public void addStatement(ICombatStatus cs, ICombatAction ca)

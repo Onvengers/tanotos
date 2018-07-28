@@ -13,12 +13,24 @@ public class TroopManager {
 	
 	private TroopManager()
 	{
-		
+		initialTroops();
 	}
 	
-	public static TroopManager getInstance()
+	public static TroopManager Instance()
 	{
 		return instance;
+	}
+	
+	public void initialTroops()
+	{
+		DefaultTroop zealotTroop = new DefaultTroop(UnitType.Protoss_Zealot, 1);
+		troops.add(zealotTroop);
+		DefaultTroop dragoonTroop = new DefaultTroop(UnitType.Protoss_Dragoon, 1);
+		troops.add(dragoonTroop);
+		DefaultTroop archonTroop = new DefaultTroop(UnitType.Protoss_Archon, 1);
+		troops.add(archonTroop);
+		DefaultTroop workerTroop = new DefaultTroop(UnitType.Protoss_Probe, 1);
+		troops.add(workerTroop);
 	}
 	
 	public Troop getTroop(UnitType unitType)
@@ -66,10 +78,21 @@ public class TroopManager {
 				}
 			}
 		}
-		
-		DefaultTroop newTroop = new DefaultTroop(unit.getType(), priority);
-		newTroop.assignUnit(unit);
-		troops.add(newTroop);
+	}
+	
+	public void resignUnit(Unit unit)
+	{
+		for(Troop troop : troops)
+		{
+			if(troop instanceof DefaultTroop)
+			{
+				if(unit.getType() == ((DefaultTroop) troop).getUnitType())
+				{
+					troop.resignUnit(unit);
+					break;
+				}
+			}
+		}
 	}
 	
 	public void assignUnitToTroops(Unit unit, String key, int priority)

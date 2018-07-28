@@ -25,7 +25,7 @@ public class CombatActionAttackGround implements ICombatAction {
 	@Override
 	public void act() {
 
-		if(troop != null)
+		if(troop != null || troop.getSize() > 0)
 		{
 			troop.command(TroopCommand.ATTACK_GROUND, pos);
 		}

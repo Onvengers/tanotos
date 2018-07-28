@@ -16,12 +16,12 @@ public class CombatStatusReadyToCombat implements ICombatStatus {
 		if(troop instanceof DefaultTroop)
 		{
 			if(((DefaultTroop) troop).getUnitType() == UnitType.Protoss_Zealot
-					&& true /* 전투 준비 완료 조건 */)
+					&& troop.getSize() > 1 /* 전투 준비 완료 조건 */)
 			{
 				return true;
 			}
 			else if(((DefaultTroop) troop).getUnitType() == UnitType.Protoss_Dragoon
-					&& true /* 전투 준비 완료 조건 */)
+					&& troop.getSize() > 2 /* 전투 준비 완료 조건 */)
 			{
 				return true;
 			}
@@ -34,6 +34,11 @@ public class CombatStatusReadyToCombat implements ICombatStatus {
 					&& true /* 전투 준비 완료 조건 */)
 			{
 				return true;
+			}
+			else if(((DefaultTroop) troop).getUnitType() == UnitType.Protoss_Probe
+					&& troop.getSize() > 5 /* 전투 준비 완료 조건 */)
+			{
+				return false;
 			}
 		}
 		else

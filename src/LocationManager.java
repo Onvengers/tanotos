@@ -51,10 +51,14 @@ public class LocationManager {
 	public Position getSectionPosition(SectionOf sectionOf, MapSection section) {
 		return sectionPosition.get(sectionOf.getValue()).get(section.getValue()).toPosition();
 	}
+	
+	public Position getSectionPosition(SectionOf sectionOf, int section) {
+		return sectionPosition.get(sectionOf.getValue()).get(section).toPosition();
+	}
 
-	public boolean isExistsSectionPosition(Unit unit, SectionOf sectionOf, MapSection section, int offset) {
-		Position pos = sectionPosition.get(sectionOf.getValue()).get(section.getValue()).toPosition();
-
+	public boolean isExistsSection(Unit unit, SectionOf sectionOf, MapSection mapSection, int offset) {
+		Position pos = sectionPosition.get(sectionOf.getValue()).get(mapSection.getValue()).toPosition();
+		
 		if (unit.getPosition().getDistance(pos) < offset) {
 			return true;
 		} else {
@@ -64,7 +68,7 @@ public class LocationManager {
 
 	public MapSection getSectionPosition(Unit unit, SectionOf sectionOf, int offset) {
 		for (MapSection section : MapSection.values()) {
-			if (isExistsSectionPosition(unit, sectionOf, section, offset)) {
+			if (isExistsSection(unit, sectionOf, section, offset)) {
 				return section;
 			}
 		}
@@ -250,32 +254,4 @@ enum OptMovable {
 	NO_CHECK, FIND_CLOSER, FIND_FAR
 }
 
-enum MapSection {
-	MAIN_CENTER(0), ENTRANCE_UP(1), ENTRANCE_BOTTOM(2), SECOND_CENTER(3), BIG_ENTRANCE(4), FRONT_BRIDGE1(
-			5), BACK_BRIDGE1(6), FRONT_BRIDGE2(
-					7), BACK_BRIDGE2(8), BIG_BRIDGE(9), THIRD_CENTER(10), SIDE1(11), SIDE2(12), SIDE3(13);
 
-	private final int value;
-
-	private MapSection(int value) {
-		this.value = value;
-	}
-
-	public int getValue() {
-		return value;
-	}
-}
-
-enum SectionOf {
-	CENTER(0), ELEVEN_CLOCK(1), ONE_CLOCK(2), FIVE_CLOCK(3), SEVEN_CLOCK(4);
-
-	private final int value;
-
-	private SectionOf(int value) {
-		this.value = value;
-	}
-
-	public int getValue() {
-		return value;
-	}
-}

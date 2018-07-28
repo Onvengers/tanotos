@@ -28,6 +28,12 @@ public class CustomTroop extends Troop {
 	}
 	
 	@Override
+	public void command(TroopCommand cmd, Object param1, Object param2) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
 	public int compareTo(Troop o) {
 		
 		if(this.priority > o.priority)

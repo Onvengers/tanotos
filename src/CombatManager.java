@@ -1,6 +1,8 @@
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.net.ssl.SSLEngineResult.Status;
+
 import bwapi.Position;
 import bwapi.UnitType;
 import bwta.BWTA;
@@ -27,13 +29,19 @@ public class CombatManager {
 		// 기본 전투 statements 추가
 		Troop zealots = TroopManager.Instance().getTroop(UnitType.Protoss_Zealot);
 		Troop dragoons = TroopManager.Instance().getTroop(UnitType.Protoss_Dragoon);
+		Troop highTemplers = TroopManager.Instance().getTroop(UnitType.Protoss_High_Templar);
+		Troop archons = TroopManager.Instance().getTroop(UnitType.Protoss_Archon);
 		Troop workers= TroopManager.Instance().getTroop(UnitType.Protoss_Probe);
 		
 		// Zealot troop 이 공격준비가 되면 ENEMY_MAIN_CENTER 를 공격한다.
 //		addStatement(new CombatStatusReadyToCombat(zealots)
 //				, new CombatActionAttackGround(zealots, LocationManager.getInstance().getSectionPosition(SectionOf.CENTER, 1)));
 		addStatement(new CombatStatusReadyToCombat(zealots)
-				, new CombatActionAttackSection(zealots, SectionOf.CENTER, MapSection.CENTER1));
+				, new CombatActionAttackSection(zealots, StatusIndicator.Instance().getMySectionOf(), MapSection.ENTRANCE_UP));
+		addStatement(new CombatStatusReadyToCombat(highTemplers)
+				, new CombatActionAttackSection(highTemplers, StatusIndicator.Instance().getMySectionOf(), MapSection.ENTRANCE_UP));
+		addStatement(new CombatStatusReadyToCombat(archons)
+				, new CombatActionAttackSection(archons, StatusIndicator.Instance().getMySectionOf(), MapSection.ENTRANCE_UP));
 //		addStatement(new CombatStatusReadyToCombat(dragoons)
 //				, new CombatActionAttackGround(dragoons, LocationManager.getInstance().getSectionPosition(SectionOf.CENTER, 1)));
 //		addStatement(new CombatStatusReadyToCombat(workers)

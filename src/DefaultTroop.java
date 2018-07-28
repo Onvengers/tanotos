@@ -28,7 +28,11 @@ public class DefaultTroop extends Troop {
 		if (cmd == TroopCommand.MOVE) {
 
 		} else if (cmd == TroopCommand.MOVE) {
-
+			for (Unit unit : units) {
+				if (unit.isIdle()) {
+					commandUtil.move(unit, (Position) param);
+				}
+			}
 		} else if (cmd == TroopCommand.ATTACK_UNIT) {
 
 		} else if (cmd == TroopCommand.ATTACK_GROUND) {
@@ -51,10 +55,21 @@ public class DefaultTroop extends Troop {
 	public void command(TroopCommand cmd, Object param1, Object param2) {
 		if (cmd == TroopCommand.ATTACK_SECTION) {
 			for (Unit unit : units) {
-				if (unit.isIdle() && !(LocationManager.getInstance().isExistsSection(unit, (SectionOf) param1, (MapSection) param2, 192))) {
-					System.out.println("unitId:"+unit.getID());
+				if (unit.isIdle() && !(LocationManager.getInstance().isExistsSection(unit, (SectionOf) param1,
+						(MapSection) param2, 192))) {
+					System.out.println("unitId:" + unit.getID());
 					System.out.println("commandUtil.attackMove");
 					commandUtil.attackMove(unit,
+							LocationManager.getInstance().getSectionPosition((SectionOf) param1, (MapSection) param2));
+				}
+			}
+		} else if (cmd == TroopCommand.MOVE) {
+			for (Unit unit : units) {
+				if (unit.isIdle() && !(LocationManager.getInstance().isExistsSection(unit, (SectionOf) param1,
+						(MapSection) param2, 192))) {
+					System.out.println("unitId:" + unit.getID());
+					System.out.println("commandUtil.move");
+					commandUtil.move(unit,
 							LocationManager.getInstance().getSectionPosition((SectionOf) param1, (MapSection) param2));
 				}
 			}

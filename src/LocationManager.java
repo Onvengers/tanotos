@@ -58,7 +58,6 @@ public class LocationManager {
 
 	public boolean isExistsSection(Unit unit, SectionOf sectionOf, MapSection mapSection, int offset) {
 		Position pos = sectionPosition.get(sectionOf.getValue()).get(mapSection.getValue()).toPosition();
-		
 		if (unit.getPosition().getDistance(pos) < offset) {
 			return true;
 		} else {

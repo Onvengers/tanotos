@@ -16,7 +16,7 @@ public class CombatStatusReadyToCombat implements ICombatStatus {
 		if(troop instanceof DefaultTroop)
 		{
 			if(((DefaultTroop) troop).getUnitType() == UnitType.Protoss_Zealot
-					&& troop.getSize() > 1 /* 전투 준비 완료 조건 */)
+					&& true /* 전투 준비 완료 조건 */)
 			{
 				return true;
 			}

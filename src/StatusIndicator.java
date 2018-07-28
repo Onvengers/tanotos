@@ -18,6 +18,8 @@ public class StatusIndicator {
 
 	private static StatusIndicator instance = new StatusIndicator();
 	private Map<UnitType, Integer> unitCount = new HashMap<UnitType, Integer>();
+	private SectionOf mySectionOf = null;
+	private SectionOf enemySectionOf = null;
 
 	private StatusIndicator() {
 		
@@ -36,5 +38,21 @@ public class StatusIndicator {
 			unitCount.put(metaType.getUnitType(), unitCount.get(metaType.getUnitType()) + count);
 		}
 		return;
+	}
+
+	public SectionOf getMySectionOf() {
+		return mySectionOf;
+	}
+
+	public void setMySectionOf(SectionOf mySectionOf) {
+		this.mySectionOf = mySectionOf;
+	}
+
+	public SectionOf getEnemySectionOf() {
+		return enemySectionOf;
+	}
+
+	public void setEnemySectionOf(SectionOf enemySectionOf) {
+		this.enemySectionOf = enemySectionOf;
 	}
 }

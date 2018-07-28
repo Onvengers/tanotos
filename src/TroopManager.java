@@ -31,6 +31,8 @@ public class TroopManager {
 		troops.add(archonTroop);
 		DefaultTroop workerTroop = new DefaultTroop(UnitType.Protoss_Probe, 1);
 		troops.add(workerTroop);
+		DefaultTroop highTemplerTroop = new DefaultTroop(UnitType.Protoss_High_Templar, 1);
+		troops.add(highTemplerTroop);
 	}
 	
 	public Troop getTroop(UnitType unitType)

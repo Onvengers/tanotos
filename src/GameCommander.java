@@ -17,6 +17,30 @@ public class GameCommander {
 			return;
 		}
 		StrategyManager.Instance().onStart();
+		
+		// 내 Section을 StatusIndicator에 저장한다.
+		if (StatusIndicator.Instance().getMySectionOf() == null) {
+			if (0 <= startLocation.getX() && startLocation.getX() <= 50
+					&& 0 <= startLocation.getY()
+					&& startLocation.getX() <= 50) {
+				StatusIndicator.Instance().setMySectionOf(SectionOf.ELEVEN_CLOCK);
+			}
+			else if (80 <= startLocation.getX() && startLocation.getX() <= 128
+					&& 0 <= startLocation.getY()
+					&& startLocation.getX() <= 50) {
+				StatusIndicator.Instance().setMySectionOf(SectionOf.ONE_CLOCK);
+			}
+			else if (80 <= startLocation.getX() && startLocation.getX() <= 128
+					&& 80 <= startLocation.getY()
+					&& startLocation.getX() <= 128) {
+				StatusIndicator.Instance().setMySectionOf(SectionOf.FIVE_CLOCK);
+			}
+			else if (0 <= startLocation.getX() && startLocation.getX() <= 50
+					&& 80 <= startLocation.getY()
+					&& startLocation.getX() <= 128) {
+				StatusIndicator.Instance().setMySectionOf(SectionOf.SEVEN_CLOCK);
+			}
+		}
 	}
 
 	/// 경기가 종료될 때 일회적으로 발생하는 이벤트를 처리합니다

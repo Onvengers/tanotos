@@ -13,8 +13,7 @@ public class StrategyRuleVsZergUpgradeOnForge extends StrategyRule {
 	@Override
 	public Strategy judgeStrategy() {
 
-		if (MyBotModule.Broodwar.getFrameCount() % 24 != 0
-				|| (BuildManager.Instance().buildQueue.getItemCount(UpgradeType.Protoss_Ground_Weapons)) > 0
+		if ((BuildManager.Instance().buildQueue.getItemCount(UpgradeType.Protoss_Ground_Weapons)) > 0
 				|| (BuildManager.Instance().buildQueue.getItemCount(UpgradeType.Protoss_Ground_Armor)) > 0
 				|| (BuildManager.Instance().buildQueue.getItemCount(UpgradeType.Protoss_Plasma_Shields)) > 0
 				|| (MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Forge) == 0)) {

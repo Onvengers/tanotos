@@ -49,6 +49,9 @@ public class LocationManager {
 	}
 
 	public Position getSectionPosition(SectionOf sectionOf, MapSection section) {
+		if(sectionOf == null) {
+			sectionOf = SectionOf.CENTER;
+		}
 		return sectionPosition.get(sectionOf.getValue()).get(section.getValue()).toPosition();
 	}
 	
@@ -57,6 +60,9 @@ public class LocationManager {
 	}
 
 	public boolean isExistsSection(Unit unit, SectionOf sectionOf, MapSection mapSection, int offset) {
+		if(sectionOf == null) {
+			sectionOf = SectionOf.CENTER;
+		}
 		Position pos = sectionPosition.get(sectionOf.getValue()).get(mapSection.getValue()).toPosition();
 		if (unit.getPosition().getDistance(pos) < offset) {
 			return true;

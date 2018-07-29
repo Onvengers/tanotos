@@ -41,6 +41,7 @@ public class StatusIndicator {
 	}
 
 	public SectionOf getMySectionOf() {
+		System.out.println("MySection : " + mySectionOf);
 		return mySectionOf;
 	}
 
@@ -49,6 +50,7 @@ public class StatusIndicator {
 	}
 
 	public SectionOf getEnemySectionOf() {
+		System.out.println("enemySectionOf : " + enemySectionOf);
 		return enemySectionOf;
 	}
 

@@ -17,26 +17,22 @@ public class GameCommander {
 			return;
 		}
 		StrategyManager.Instance().onStart();
+
+		// (4)CircuitBreaker.scx, Spirit
+		System.out.println(MyBotModule.Broodwar.mapFileName());
 		
 		// 내 Section을 StatusIndicator에 저장한다.
 		if (StatusIndicator.Instance().getMySectionOf() == null) {
-			if (0 <= startLocation.getX() && startLocation.getX() <= 50
-					&& 0 <= startLocation.getY()
+			if (0 <= startLocation.getX() && startLocation.getX() <= 50 && 0 <= startLocation.getY()
 					&& startLocation.getY() <= 50) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.ELEVEN_CLOCK);
-			}
-			else if (80 <= startLocation.getX() && startLocation.getX() <= 128
-					&& 0 <= startLocation.getY()
+			} else if (80 <= startLocation.getX() && startLocation.getX() <= 128 && 0 <= startLocation.getY()
 					&& startLocation.getY() <= 50) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.ONE_CLOCK);
-			}
-			else if (80 <= startLocation.getX() && startLocation.getX() <= 128
-					&& 80 <= startLocation.getY()
+			} else if (80 <= startLocation.getX() && startLocation.getX() <= 128 && 80 <= startLocation.getY()
 					&& startLocation.getY() <= 128) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.FIVE_CLOCK);
-			}
-			else if (0 <= startLocation.getX() && startLocation.getX() <= 50
-					&& 80 <= startLocation.getY()
+			} else if (0 <= startLocation.getX() && startLocation.getX() <= 50 && 80 <= startLocation.getY()
 					&& startLocation.getY() <= 128) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.SEVEN_CLOCK);
 			}
@@ -56,26 +52,19 @@ public class GameCommander {
 				|| MyBotModule.Broodwar.enemy().leftGame()) {
 			return;
 		}
-		
+
 		if (StatusIndicator.Instance().getMySectionOf() == null) {
 			TilePosition startLocation = MyBotModule.Broodwar.self().getStartLocation();
-			if (0 <= startLocation.getX() && startLocation.getX() <= 50
-					&& 0 <= startLocation.getY()
+			if (0 <= startLocation.getX() && startLocation.getX() <= 50 && 0 <= startLocation.getY()
 					&& startLocation.getY() <= 50) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.ELEVEN_CLOCK);
-			}
-			else if (80 <= startLocation.getX() && startLocation.getX() <= 128
-					&& 0 <= startLocation.getY()
+			} else if (80 <= startLocation.getX() && startLocation.getX() <= 128 && 0 <= startLocation.getY()
 					&& startLocation.getY() <= 50) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.ONE_CLOCK);
-			}
-			else if (80 <= startLocation.getX() && startLocation.getX() <= 128
-					&& 80 <= startLocation.getY()
+			} else if (80 <= startLocation.getX() && startLocation.getX() <= 128 && 80 <= startLocation.getY()
 					&& startLocation.getY() <= 128) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.FIVE_CLOCK);
-			}
-			else if (0 <= startLocation.getX() && startLocation.getX() <= 50
-					&& 80 <= startLocation.getY()
+			} else if (0 <= startLocation.getX() && startLocation.getX() <= 50 && 80 <= startLocation.getY()
 					&& startLocation.getY() <= 128) {
 				StatusIndicator.Instance().setMySectionOf(SectionOf.SEVEN_CLOCK);
 			}
@@ -139,7 +128,7 @@ public class GameCommander {
 
 	/// 유닛(건물/지상유닛/공중유닛)이 Create 될 때 발생하는 이벤트를 처리합니다
 	public void onUnitCreate(Unit unit) {
-		InformationManager.Instance().onUnitCreate(unit);		
+		InformationManager.Instance().onUnitCreate(unit);
 	}
 
 	/// 유닛(건물/지상유닛/공중유닛)이 Destroy 될 때 발생하는 이벤트를 처리합니다
@@ -147,7 +136,7 @@ public class GameCommander {
 		// ResourceDepot 및 Worker 에 대한 처리
 		WorkerManager.Instance().onUnitDestroy(unit);
 		InformationManager.Instance().onUnitDestroy(unit);
-		
+
 		if (unit.getType().isBuilding() == false) {
 			TroopManager.Instance().resignUnit(unit);
 		}
@@ -184,9 +173,10 @@ public class GameCommander {
 		WorkerManager.Instance().onUnitComplete(unit);
 		if (unit.getType().isBuilding() == false) {
 			TroopManager.Instance().assignUnit(unit, 1);
-//			System.out.println(unit.getType().toString() + " size:"
-//					+ TroopManager.Instance().getTroop(unit.getType()).units.size());
-//			System.out.println("Inside:" + TroopManager.Instance().getTroop(unit.getType()).units.toString());
+			// System.out.println(unit.getType().toString() + " size:"
+			// + TroopManager.Instance().getTroop(unit.getType()).units.size());
+			// System.out.println("Inside:" +
+			// TroopManager.Instance().getTroop(unit.getType()).units.toString());
 		}
 	}
 

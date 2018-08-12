@@ -69,7 +69,9 @@ public class StrategyRuleVsZergBuildSupply extends StrategyRule {
 						}
 					}
 					if (isToEnqueue) {
-						return Strategy.BUILD_SUPPLY;
+						if (MyBotModule.Broodwar.self().supplyTotal() < 400) {
+							return Strategy.BUILD_SUPPLY;
+						}
 					}
 				}
 			}

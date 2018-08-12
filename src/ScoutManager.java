@@ -146,23 +146,23 @@ public class ScoutManager {
 			if (StatusIndicator.Instance().getEnemySectionOf() == null) {
 				if (0 <= enemyBaseLocation.getTilePosition().getX() && enemyBaseLocation.getTilePosition().getX() <= 50
 						&& 0 <= enemyBaseLocation.getTilePosition().getY()
-						&& enemyBaseLocation.getTilePosition().getX() <= 50) {
+						&& enemyBaseLocation.getTilePosition().getY() <= 50) {
 					StatusIndicator.Instance().setEnemySectionOf(SectionOf.ELEVEN_CLOCK);
 				}
 				else if (80 <= enemyBaseLocation.getTilePosition().getX() && enemyBaseLocation.getTilePosition().getX() <= 128
 						&& 0 <= enemyBaseLocation.getTilePosition().getY()
-						&& enemyBaseLocation.getTilePosition().getX() <= 50) {
+						&& enemyBaseLocation.getTilePosition().getY() <= 50) {
 					StatusIndicator.Instance().setEnemySectionOf(SectionOf.ONE_CLOCK);
 				}
 				else if (80 <= enemyBaseLocation.getTilePosition().getX() && enemyBaseLocation.getTilePosition().getX() <= 128
 						&& 80 <= enemyBaseLocation.getTilePosition().getY()
-						&& enemyBaseLocation.getTilePosition().getX() <= 128) {
+						&& enemyBaseLocation.getTilePosition().getY() <= 128) {
 					StatusIndicator.Instance().setEnemySectionOf(SectionOf.FIVE_CLOCK);
 				}
 				else if (0 <= enemyBaseLocation.getTilePosition().getX() && enemyBaseLocation.getTilePosition().getX() <= 50
 						&& 80 <= enemyBaseLocation.getTilePosition().getY()
-						&& enemyBaseLocation.getTilePosition().getX() <= 128) {
-					StatusIndicator.Instance().setEnemySectionOf(SectionOf.ELEVEN_CLOCK);
+						&& enemyBaseLocation.getTilePosition().getY() <= 128) {
+					StatusIndicator.Instance().setEnemySectionOf(SectionOf.SEVEN_CLOCK);
 				}
 			}
 

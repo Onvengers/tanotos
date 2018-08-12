@@ -12,9 +12,18 @@ public class StrategyRuleVsZergBuildGas extends StrategyRule {
 	@Override
 	public Strategy judgeStrategy() {
 
-		if ((MyBotModule.Broodwar.getFrameCount() % 120 != 0) ||
-				((BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Assimilator)) > 0) ||
-				((MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Assimilator)) > 0)) {
+		if (MyBotModule.Broodwar.getFrameCount() % 120 != 0) {
+			return null;
+		}
+		if (BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Assimilator) > 1
+				|| MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Assimilator) > 1) {
+			return null;
+		}
+		if (MyBotModule.Broodwar.self().completedUnitCount(UnitType.Protoss_Nexus) > 1) {
+			return Strategy.BUILD_GAS;
+		}
+		if (BuildManager.Instance().buildQueue.getItemCount(UnitType.Protoss_Assimilator) > 0
+				|| MyBotModule.Broodwar.self().allUnitCount(UnitType.Protoss_Assimilator) > 0) {
 			return null;
 		}
 
@@ -26,4 +35,3 @@ public class StrategyRuleVsZergBuildGas extends StrategyRule {
 		return null;
 	}
 }
-

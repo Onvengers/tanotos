@@ -73,15 +73,35 @@ public class BuildStrategyFactory {
 			bs = new BuildStrategyBuildCore();
 			bs.setMyStrategy(Strategy.BUILD_CORE);
 		}
+		else if (strategy == Strategy.BUILD_SECOND_CENTER)
+		{
+			bs = new BuildStrategyBuildSecondCenter();
+			bs.setMyStrategy(Strategy.BUILD_SECOND_CENTER);
+		}
+		else if (strategy == Strategy.BUILD_PHOTO)
+		{
+			bs = new BuildStrategyBuildPhoto();
+			bs.setMyStrategy(Strategy.BUILD_PHOTO);
+		}
 		else if (strategy == Strategy.BUILD_ADUN)
 		{
 			bs = new BuildStrategyBuildAdun();
 			bs.setMyStrategy(Strategy.BUILD_ADUN);
 		}
-		else if (strategy == Strategy.BUILD_TEMPLAR_ARCHIVE)
+		else if (strategy == Strategy.BUILD_MORE_UPGRADE)
 		{
-			bs = new BuildStrategyBuildTemplarArchive();
-			bs.setMyStrategy(Strategy.BUILD_TEMPLAR_ARCHIVE);
+			bs = new BuildStrategyBuildMoreUpgrade();
+			bs.setMyStrategy(Strategy.BUILD_MORE_UPGRADE);
+		}
+		else if (strategy == Strategy.BUILD_OBSERVER)
+		{
+			bs = new BuildStrategyBuildObserver();
+			bs.setMyStrategy(Strategy.BUILD_OBSERVER);
+		}
+		else if (strategy == Strategy.BUILD_UNIT_OBSERVER)
+		{
+			bs = new BuildStrategyBuildUnitObserver();
+			bs.setMyStrategy(Strategy.BUILD_UNIT_OBSERVER);
 		}
 		
 		//유닛생산
@@ -94,6 +114,11 @@ public class BuildStrategyFactory {
 		{
 			bs = new BuildStrategyAddZealotMulti(1);
 			bs.setMyStrategy(Strategy.ADD_ZEALOT);
+		}
+		else if (strategy == Strategy.ADD_DRAGOON)
+		{
+			bs = new BuildStrategyAddDragoonMulti(1);
+			bs.setMyStrategy(Strategy.ADD_DRAGOON);
 		}
 		else if (strategy == Strategy.ADD_HIGH_TEMPLER)
 		{
@@ -126,6 +151,11 @@ public class BuildStrategyFactory {
 		{
 			bs = new BuildStrategyUpgradeZealotLeg();
 			bs.setMyStrategy(Strategy.UPGRADE_ZEALOT_LEG);
+		}
+		else if (strategy == Strategy.UPGRADE_DRAGOON_RANGE_UP)
+		{
+			bs = new BuildStrategyUpgradeDragoonRangeUp();
+			bs.setMyStrategy(Strategy.UPGRADE_DRAGOON_RANGE_UP);
 		}
 		
 		else

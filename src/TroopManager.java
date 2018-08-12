@@ -27,12 +27,8 @@ public class TroopManager {
 		troops.add(zealotTroop);
 		DefaultTroop dragoonTroop = new DefaultTroop(UnitType.Protoss_Dragoon, 1);
 		troops.add(dragoonTroop);
-		DefaultTroop archonTroop = new DefaultTroop(UnitType.Protoss_Archon, 1);
-		troops.add(archonTroop);
-		DefaultTroop workerTroop = new DefaultTroop(UnitType.Protoss_Probe, 1);
-		troops.add(workerTroop);
-		DefaultTroop highTemplerTroop = new DefaultTroop(UnitType.Protoss_High_Templar, 1);
-		troops.add(highTemplerTroop);
+		DefaultTroop observerTroop = new DefaultTroop(UnitType.Protoss_Observer, 1);
+		troops.add(observerTroop);
 	}
 	
 	public Troop getTroop(UnitType unitType)

@@ -27,24 +27,25 @@ public class CombatStatement {
 	}
 	
 	public int execute()
-	{		
-		if(condStatus != null)
-		{
-			if(condStatus.checkCombatStatus())
-			{
-				actAction.act();
-				return 1;  
-			}
-			else
-			{
-				return 0;
-			}
-		}
-		else
-		{
-			actAction.act();
-			return 2;
-		}
+	{	
+		actAction.act(condStatus.getHowToCombat());
+		return 1;
+//		if(condStatus != null)
+//		{
+//			if(condStatus.checkCombatStatus())
+//			{
+//				actAction.act();
+//				return 1;  
+//			}
+//			else
+//			{
+//				return 0;
+//			}
+//		}
+//		else
+//		{
+//			actAction.act();
+//			return 2;
+//		}
 	}
-	
 }

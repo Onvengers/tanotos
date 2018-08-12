@@ -11,8 +11,8 @@ public class LocationManager {
 
 	private static LocationManager instance = new LocationManager();
 	private Map<Integer, List<TilePosition>> sectionPosition = new HashMap<>();
-	private int centerX[] = { 37, 50, 63, 76, 89, 37, 50, 63, 76, 89, 37, 50, 63, 76, 89 };
-	private int centerY[] = { 52, 52, 52, 52, 52, 63, 63, 63, 63, 63, 77, 77, 77, 77, 77 };
+	private int centerX[] = { 37, 50, 63, 76, 89, 37, 50, 63, 76, 89, 37, 50, 63, 76, 89, 63, 112, 63, 17};
+	private int centerY[] = { 52, 52, 52, 52, 52, 63, 63, 63, 63, 63, 77, 77, 77, 77, 77, 5, 63, 119, 63};
 	private int sectionX[][] = { { 7, 6, 8, 7, 19, 24, 33, 33, 41, 38, 35, 0, 31, 22 },
 			{ 117, 122, 118, 117, 109, 102, 94, 94, 87, 90, 89, 126, 98, 109 },
 			{ 117, 121, 114, 117, 109, 102, 93, 93, 86, 90, 89, 126, 98, 107 },
@@ -31,7 +31,7 @@ public class LocationManager {
 		sectionPosition.put(SectionOf.SEVEN_CLOCK.getValue(), new ArrayList<TilePosition>());
 
 		// center1-15까지 x,y좌표를 넣는다.
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 19; i++) {
 			sectionPosition.get(SectionOf.CENTER.getValue()).add(new TilePosition(centerX[i], centerY[i]));
 		}
 
@@ -64,6 +64,14 @@ public class LocationManager {
 			sectionOf = SectionOf.CENTER;
 		}
 		Position pos = sectionPosition.get(sectionOf.getValue()).get(mapSection.getValue()).toPosition();
+		if (unit.getPosition().getDistance(pos) < offset) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isExistsPosition(Unit unit, Position pos, int offset) {
 		if (unit.getPosition().getDistance(pos) < offset) {
 			return true;
 		} else {

@@ -1,3 +1,5 @@
+import javax.net.ssl.SSLEngineResult.Status;
+
 import bwapi.Position;
 import bwapi.Unit;
 import bwapi.UnitType;
@@ -7,72 +9,77 @@ public class CombatActionAttackSection implements ICombatAction {
 
 	private final Troop troop;
 	private final Unit unit;
-	private final SectionOf sectionOf;
-	private final MapSection mapSection;
 
-	public CombatActionAttackSection(Troop troop, SectionOf sectionOf, MapSection mapSection) {
+	public CombatActionAttackSection(Troop troop) {
 		if (troop instanceof DefaultTroop) {
 			this.troop = (DefaultTroop) troop;
 		} else {
 			this.troop = troop;
 		}
 		this.unit = null;
-		this.sectionOf = sectionOf;
-		this.mapSection = mapSection;
 	}
 
-	public CombatActionAttackSection(Unit unit, SectionOf sectionOf, MapSection mapSection) {
+	public CombatActionAttackSection(Unit unit) {
 		this.unit = unit;
 		this.troop = null;
-		this.sectionOf = sectionOf;
-		this.mapSection = mapSection;
 	}
 
 	@Override
 	public void act() {
-		if (((DefaultTroop) troop).getUnitType() == UnitType.Protoss_Zealot) {
-			if (troop != null && 25 < troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.SIDE3);
-			}
-			if (troop != null && 24 < troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.SIDE2);
-			}
-			if (troop != null && 23 < troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.SIDE1);
-			}
-			if (troop != null && 20 < troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.MAIN_CENTER);
-			}
-			if (troop != null && 12 <= troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.BIG_ENTRANCE);
-			}
-			if (troop != null && 4 < troop.getSize() && troop.getSize() < 12) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getMySectionOf(),
-						MapSection.BIG_ENTRANCE);
-			}
-			if (troop != null && 0 < troop.getSize() && troop.getSize() < 5) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getMySectionOf(), mapSection);
-			}
+	}
 
-		} else if (((DefaultTroop) troop).getUnitType() == UnitType.Protoss_High_Templar) {
-			if (troop != null) {
-				troop.command(TroopCommand.MOVE, StatusIndicator.Instance().getMySectionOf(), MapSection.ENTRANCE_UP);
+	@Override
+	public void act(CommandFlag commandFlag) {
+		// // CommandFlag 처리하기
+		if (commandFlag == CommandFlag.ATTACK_ENEMY_CENTER) {
+			troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
+					MapSection.MAIN_CENTER);
+		} else if (commandFlag == CommandFlag.ATTACK_ENEMY_SECOND_CENTER) {
+			troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
+					MapSection.SECOND_CENTER);
+		} else if (commandFlag == CommandFlag.DEFENCE_MY_CENTER) {
+			troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getMySectionOf(),
+					MapSection.MAIN_CENTER);
+		} else if (commandFlag == CommandFlag.DEFENCE_MY_SECOND_CENTER) {
+			troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getMySectionOf(),
+					MapSection.SECOND_CENTER);
+		} else if (commandFlag == CommandFlag.DEFENCE_MY_BIG_ENTRANCE) {
+			troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getMySectionOf(),
+					MapSection.BIG_ENTRANCE);
+		} else if (commandFlag == CommandFlag.MOVE_MY_TROOP) {
+			if (TroopManager.Instance().getTroop(UnitType.Protoss_Zealot).getSize() > 0) {
+				troop.command(TroopCommand.MOVE,
+						TroopManager.Instance().getTroop(UnitType.Protoss_Zealot).units.get(0).getPosition());
 			}
-		} else if (((DefaultTroop) troop).getUnitType() == UnitType.Protoss_Archon) {
-			if (troop != null && 0 < troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.BIG_ENTRANCE);
-			}
-			if (troop != null && 1 < troop.getSize()) {
-				troop.command(TroopCommand.ATTACK_SECTION, StatusIndicator.Instance().getEnemySectionOf(),
-						MapSection.MAIN_CENTER);
-			}
+			// troop.command(TroopCommand.MOVE,
+			// getSectionOfFromCF(StatusIndicator.Instance().getTroopCommandFlag()),
+			// getMapSectionFromCF(StatusIndicator.Instance().getTroopCommandFlag()));
+		} else if (commandFlag == CommandFlag.ATTACK_ELLIE) {
+			troop.command(TroopCommand.ATTACK_ELLIE);
 		}
 	}
 
+	private SectionOf getSectionOfFromCF(CommandFlag cf) {
+		if (cf == CommandFlag.ATTACK_ENEMY_CENTER || cf == CommandFlag.ATTACK_ENEMY_SECOND_CENTER) {
+			return StatusIndicator.Instance().getEnemySectionOf();
+		}
+		if (cf == CommandFlag.DEFENCE_MY_BIG_ENTRANCE || cf == CommandFlag.DEFENCE_MY_CENTER
+				|| cf == CommandFlag.DEFENCE_MY_SECOND_CENTER) {
+			return StatusIndicator.Instance().getMySectionOf();
+		}
+		return StatusIndicator.Instance().getMySectionOf();
+	}
+
+	private MapSection getMapSectionFromCF(CommandFlag cf) {
+		if (cf == CommandFlag.ATTACK_ENEMY_CENTER || cf == CommandFlag.DEFENCE_MY_CENTER) {
+			return MapSection.MAIN_CENTER;
+		}
+		if (cf == CommandFlag.ATTACK_ENEMY_SECOND_CENTER || cf == CommandFlag.DEFENCE_MY_SECOND_CENTER) {
+			return MapSection.SECOND_CENTER;
+		}
+		if (cf == CommandFlag.DEFENCE_MY_BIG_ENTRANCE) {
+			return MapSection.BIG_ENTRANCE;
+		}
+		return MapSection.BIG_ENTRANCE;
+	}
 }

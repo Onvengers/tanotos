@@ -1,6 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
+import bwapi.Position;
 import bwapi.Unit;
 
 public abstract class Troop implements Comparable<Troop> {
@@ -9,6 +10,7 @@ public abstract class Troop implements Comparable<Troop> {
 	
 	protected TroopCommand command = TroopCommand.NONE;
 	protected int priority = 0;
+	private Position troopPosition = new Position(0,0);
 	
 	public int getPriority() {
 		return priority;
@@ -52,6 +54,18 @@ public abstract class Troop implements Comparable<Troop> {
 	public abstract void command(TroopCommand cmd, Object param);
 	
 	public abstract void command(TroopCommand cmd, Object param1, Object param2);
+
+	public Position getTroopPosition() {
+		return troopPosition;
+	}
+
+	public void setTroopPosition(Position troopPosition) {
+		this.troopPosition = troopPosition;
+	}
+
+	public void command(TroopCommand cmd) {
+		// TODO Auto-generated method stub
+	}
 }
 
 enum TroopCommand
@@ -60,6 +74,7 @@ enum TroopCommand
 	ATTACK_UNIT,
 	ATTACK_SECTION,
 	ATTACK_GROUND,
+	ATTACK_ELLIE,
 	HOLD,
 	ATTACK_STORM,
 	NONE

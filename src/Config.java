@@ -78,12 +78,12 @@ public class Config {
 	/// 화면 표시 여부 - 지도
 	public static boolean DrawBWTAInfo = true;
 	/// 화면 표시 여부 - 바둑판
-	public static boolean DrawMapGrid = true;
+	public static boolean DrawMapGrid = false;
 
 	/// 화면 표시 여부 - 유닛 HitPoint
 	public static boolean DrawUnitHealthBars = false;
 	/// 화면 표시 여부 - 유닛 통계
-	public static boolean DrawEnemyUnitInfo = false;
+	public static boolean DrawEnemyUnitInfo = true;
 	/// 화면 표시 여부 - 유닛 ~ Target 간 직선
 	public static boolean DrawUnitTargetInfo = false;
 
